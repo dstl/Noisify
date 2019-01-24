@@ -9,6 +9,15 @@ class Fallible:
         self.faults.append(fault)
         return self
 
+    def apply_all_faults(self, incompletely_flawed_object):
+        applied_faults = []
+        for fault in self.faults:
+            applied_fault, result = fault.apply(incompletely_flawed_object)
+            if applied_fault:
+                incompletely_flawed_object = result
+                applied_faults.append(applied_fault)
+        return applied_faults, incompletely_flawed_object
+
 
 def evaluate_faults(faults):
     from sigyn.faults import Fault

@@ -29,3 +29,14 @@ class TestFaultEvaluation(unittest.TestCase):
         self.assertEqual(literal_eval(faults[0].init_statement), {'sigma': 0.1})
         self.assertEqual(literal_eval(faults[1].init_statement), {'sigma': 0.2})
         pass
+
+
+class TestFallible(unittest.TestCase):
+    def test_fault_application(self):
+        constitutively_fallible_object = Fallible(GaussianNoise(sigma=0.1))
+        faults, result = constitutively_fallible_object.apply_all_faults(100)
+        self.assertEqual(len(faults), 1)
+        self.assertIsInstance(faults[0], GaussianNoise)
+        self.assertEqual(literal_eval(faults[0].init_statement), {'sigma': 0.1})
+        self.assertIsNot(100, result)
+        pass

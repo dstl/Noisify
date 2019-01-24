@@ -6,11 +6,11 @@ class Fault(SavedInitStatement):
         super(SavedInitStatement, self).__init__(*args, **kwargs)
         pass
 
-    def apply(self, triggering_object, affected_recorder):
-        if self.condition(triggering_object):
-            new_observation = self.impact_truth(affected_recorder.working_observation)
-            return new_observation
-        return affected_recorder.working_observation
+    def apply(self, truth_object):
+        if self.condition(truth_object):
+            new_observation = self.impact_truth(truth_object)
+            return self, new_observation
+        return None, truth_object
 
     def condition(self, triggering_object):
         raise NotImplementedError

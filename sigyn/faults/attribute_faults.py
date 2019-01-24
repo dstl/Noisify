@@ -1,12 +1,12 @@
-from .fault import Fault
+from .fault import AttributeFault
 import random
 
 
-class GaussianNoise(Fault):
+class GaussianNoise(AttributeFault):
     name = "Gaussian Noise"
 
     def __init__(self, sigma=0):
-        super(Fault, self).__init__(sigma=sigma)
+        AttributeFault.__init__(self, sigma=sigma)
         self.sigma = sigma
         pass
 
@@ -17,11 +17,11 @@ class GaussianNoise(Fault):
         return random.gauss(truth, self.sigma)
 
 
-class InterruptionFault(Fault):
+class InterruptionFault(AttributeFault):
     name = "Interrupted recording"
 
     def __init__(self, likelihood=0):
-        super(Fault, self).__init__(likelihood=likelihood)
+        AttributeFault.__init__(self, likelihood=likelihood)
         self.likelihood = 1 - likelihood
         pass
 

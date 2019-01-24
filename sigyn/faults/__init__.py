@@ -1,2 +1,2 @@
-from .basic_faults import *
+from .attribute_faults import *
 from .fault import Fault

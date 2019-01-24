@@ -17,4 +17,3 @@ class Attribute(Fallible):
     def measure(self, truth_object):
         truth = self.get_truth(truth_object)
         return self.apply_all_faults(truth)
-

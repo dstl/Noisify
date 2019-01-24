@@ -2,11 +2,11 @@ from sigyn.helpers import Fallible
 
 
 class Reporter(Fallible):
-    def __init__(self, report_type, attributes=[], faults=None, groups=[]):
+    def __init__(self, report_type, attributes=None, faults=None, groups=None):
         self.report_type = report_type
-        self.attributes = attributes
+        self.attributes = attributes or []
         Fallible.__init__(self, faults)
-        self.inherit_group_faults(groups)
+        self.inherit_group_faults(groups or [])
         self.identifier = None
         self.report_index = 0
 
@@ -20,11 +20,7 @@ class Reporter(Fallible):
         ident = identifier or self.report_index
         self.report_index += 1
         triggered_faults, measures = self.measure(truth_object)
-        return {'identifier': ident,
-                'report_type': self.report_type,
-                'truth': self.get_truth(truth_object),
-                'triggered_faults': triggered_faults,
-                'observed': measures}
+        return Report(ident, self.report_type, self.get_truth(truth_object), triggered_faults, measures)
 
     def measure(self, truth_object):
         measurement, triggered_faults = self.get_attribute_measurements(truth_object)
@@ -47,3 +43,17 @@ class Reporter(Fallible):
             truth[attribute.attribute_identifier] = attribute.get_truth(truth_object)
         return truth
 
+    def __call__(self, *args, **kwargs):
+        return self.create_report(*args, **kwargs)
+
+
+class Report:
+    def __init__(self, identifier, report_type, truth, triggered_faults, observed):
+        self.identifier = identifier
+        self.report_type = report_type
+        self.truth = truth
+        self.triggered_faults = triggered_faults
+        self.observed = observed
+
+    def __repr__(self):
+        return str(self.observed)

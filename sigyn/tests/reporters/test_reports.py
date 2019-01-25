@@ -8,7 +8,7 @@ class TestReports(unittest.TestCase):
     def test_attribute_faults(self):
         new_prototype = Reporter(attributes=[Attribute('noisy', faults=GaussianNoise(sigma=0.1)),
                                              Attribute('noiseless')])
-        report0 = new_prototype.create_report({'noisy': 100, 'noiseless': 100})
+        report0 = new_prototype({'noisy': 100, 'noiseless': 100})
         self.assertEqual(report0.truth, {'noisy': 100, 'noiseless': 100})
         self.assertEqual(report0.observed['noiseless'], 100)
         self.assertNotEqual(report0.observed['noisy'], 100)

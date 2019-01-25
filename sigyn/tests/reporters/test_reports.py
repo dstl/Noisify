@@ -1,13 +1,12 @@
 import unittest
 from sigyn.reporters import Reporter
 from sigyn.attributes import Attribute
-from sigyn.faults import GaussianNoise
+from sigyn.faults import GaussianNoise, InterruptionFault
 
 
 class TestReports(unittest.TestCase):
     def test_attribute_faults(self):
-        new_prototype = Reporter('test',
-                                 attributes=[Attribute('noisy', faults=GaussianNoise(sigma=0.1)),
+        new_prototype = Reporter(attributes=[Attribute('noisy', faults=GaussianNoise(sigma=0.1)),
                                              Attribute('noiseless')])
         report0 = new_prototype.create_report({'noisy': 100, 'noiseless': 100})
         self.assertEqual(report0.truth, {'noisy': 100, 'noiseless': 100})
@@ -20,10 +19,19 @@ class TestReports(unittest.TestCase):
         pass
 
     def test_auto_increment(self):
-        new_prototype = Reporter('test')
+        new_prototype = Reporter()
         report0 = new_prototype.create_report({})
         report1 = new_prototype.create_report({})
-        self.assertEqual(report0.report_type, 'test')
         self.assertEqual(report0.identifier, 0)
         self.assertEqual(report1.identifier, 1)
+        pass
+
+    def test_addition(self):
+        prototype1 = Reporter(attributes=[Attribute('noisy', faults=GaussianNoise(sigma=0.1)),
+                                          Attribute('noisier', faults=GaussianNoise(sigma=0.2))])
+        prototype2 = Reporter(attributes=[Attribute('noised', faults=GaussianNoise(sigma=0.1)),
+                                          Attribute('noisier', faults=InterruptionFault(likelihood=0.1))])
+        new_prototype = prototype1 + prototype2
+        self.assertIs(len(new_prototype.attributes), 3)
+        self.assertIs(len(new_prototype.get_attribute_by_id('noisier').faults), 2)
         pass

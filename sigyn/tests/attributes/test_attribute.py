@@ -1,5 +1,6 @@
 import unittest
 from sigyn.attributes import Attribute
+from sigyn.faults import GaussianNoise, InterruptionFault
 
 
 class TestAttributeLookup(unittest.TestCase):
@@ -22,4 +23,20 @@ class TestAttributeLookup(unittest.TestCase):
         test_attribute = Attribute('test')
         with self.assertRaises(TypeError):
             test_attribute.get_truth(None)
+        pass
+
+    def test_addition(self):
+        test_attribute1 = Attribute('test', faults=GaussianNoise(sigma=1))
+        test_attribute2 = Attribute('test', faults=InterruptionFault(likelihood=1))
+        new_attribute = test_attribute1 + test_attribute2
+        self.assertIs(len(new_attribute.faults), 2)
+        self.assertIsInstance(new_attribute.faults[0], GaussianNoise)
+        self.assertIsInstance(new_attribute.faults[1], InterruptionFault)
+        pass
+
+    def test_invalid_addition(self):
+        test_attribute1 = Attribute('test')
+        test_attribute2 = Attribute('test2')
+        with self.assertRaises(TypeError):
+            new_attribute = test_attribute1 + test_attribute2
         pass

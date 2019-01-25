@@ -1,3 +1,6 @@
+import copy
+
+
 class Fallible:
     def __init__(self, faults):
         if faults:
@@ -17,6 +20,11 @@ class Fallible:
                 incompletely_flawed_object = result
                 applied_faults.append(applied_fault)
         return applied_faults, incompletely_flawed_object
+
+    def __add__(self, other):
+        clone = copy.deepcopy(self)
+        clone.faults += other.faults
+        return clone
 
 
 def evaluate_faults(faults):

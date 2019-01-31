@@ -14,10 +14,10 @@ class ScrambleAttributes(ReportFault):
         return True
 
     def impact_report(self, report_object):
-        confuseable_attribute_identifiers = self.attribute_identifiers or [att for att in report_object]
-        new_attribute_order = scramble(confuseable_attribute_identifiers, self.scrambledness, 3)
+        confusable_attribute_identifiers = self.attribute_identifiers or [att for att in report_object]
+        new_attribute_order = scramble(confusable_attribute_identifiers, self.scrambledness, 3)
         output = {}
-        for expected_attribute, found_attribute in zip(confuseable_attribute_identifiers, new_attribute_order):
+        for expected_attribute, found_attribute in zip(confusable_attribute_identifiers, new_attribute_order):
             output[expected_attribute] = report_object[found_attribute]
         return output
 
@@ -34,5 +34,6 @@ class ConfuseSpecificAttributes(ReportFault):
 
     def impact_report(self, report_object):
         output = copy.deepcopy(report_object)
-        output[self.attribute1], output[self.attribute2] = (report_object[self.attribute2], report_object[self.attribute1])
+        output[self.attribute1], output[self.attribute2] = \
+            (report_object[self.attribute2], report_object[self.attribute1])
         return output

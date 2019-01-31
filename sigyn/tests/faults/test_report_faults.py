@@ -14,7 +14,8 @@ class TestReportFaults(unittest.TestCase):
         pass
 
     def test_specific_attribute_confusion(self):
-        new_reporter = Reporter(attributes=[Attribute('att1'), Attribute('att2')], faults=ConfuseSpecificAttributes('att1', 'att2', likelihood=1))
+        new_reporter = Reporter(attributes=[Attribute('att1'), Attribute('att2')],
+                                faults=ConfuseSpecificAttributes('att1', 'att2', likelihood=1))
         data = {'att1': 1, 'att2': 2}
         output_data = new_reporter(data).observed
         self.assertEqual(data['att1'], output_data['att2'])
@@ -26,7 +27,13 @@ class TestReportFaults(unittest.TestCase):
         new_reporter = Reporter(attributes=[Attribute('att1'), Attribute('att2')], faults=GaussianNoise(sigma=1))
         data = {'att1': 1, 'att2': 2}
         output_data = new_reporter(data).observed
-        print(data)
-        print(output_data)
         self.assertNotEqual(data, output_data)
+        pass
+
+    def test_introspected_attribute_fault_mapping(self):
+        new_reporter = Reporter(faults=GaussianNoise(sigma=1))
+        data = {'att1': 1, 'att2': 2}
+        output_data = new_reporter(data).observed
+        self.assertNotEqual(data, output_data)
+        self.assertEqual(data.keys(), output_data.keys())
         pass

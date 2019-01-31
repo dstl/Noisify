@@ -1,1 +1,2 @@
-from .attribute import Attribute, generate_object_attributes
+from .attribute import Attribute
+from sigyn.attributes.utilities import generate_object_attributes

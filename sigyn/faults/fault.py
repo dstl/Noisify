@@ -1,3 +1,5 @@
+from abc import ABC
+
 from sigyn.helpers import SavedInitStatement
 
 
@@ -6,11 +8,11 @@ class Fault(SavedInitStatement):
         SavedInitStatement.__init__(self, *args, **kwargs)
         pass
 
-    def apply(self, unfaulted_object):
-        if self.condition(unfaulted_object):
-            new_observation = self.impact(unfaulted_object)
+    def apply(self, not_faulted_object):
+        if self.condition(not_faulted_object):
+            new_observation = self.impact(not_faulted_object)
             return self, new_observation
-        return None, unfaulted_object
+        return None, not_faulted_object
 
     def condition(self, triggering_object):
         raise NotImplementedError
@@ -19,7 +21,7 @@ class Fault(SavedInitStatement):
         raise NotImplementedError
 
 
-class AttributeFault(Fault):
+class AttributeFault(Fault, ABC):
     def impact(self, impacted_object):
         return self.impact_truth(impacted_object)
 
@@ -27,7 +29,7 @@ class AttributeFault(Fault):
         raise NotImplementedError
 
 
-class ReportFault(Fault):
+class ReportFault(Fault, ABC):
     def impact(self, impacted_object):
         return self.impact_report(impacted_object)
 
@@ -35,7 +37,7 @@ class ReportFault(Fault):
         raise NotImplementedError
 
 
-class SeriesFault(Fault):
+class SeriesFault(Fault, ABC):
     def impact(self, impacted_object):
         return self.impact_series(impacted_object)
 

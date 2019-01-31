@@ -38,5 +38,5 @@ class TestAttributeLookup(unittest.TestCase):
         test_attribute1 = Attribute('test')
         test_attribute2 = Attribute('test2')
         with self.assertRaises(TypeError):
-            new_attribute = test_attribute1 + test_attribute2
+            test_attribute1 + test_attribute2
         pass

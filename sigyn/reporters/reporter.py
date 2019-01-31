@@ -1,12 +1,13 @@
 from sigyn.helpers import Fallible
 from sigyn.attributes import generate_object_attributes
+from sigyn.faults import AttributeFault, ReportFault
 
 
 class Reporter(Fallible):
-    def __init__(self, attributes=None, faults=None, mapped_attribute_faults=None):
+    def __init__(self, attributes=None, faults=None):
         self.attributes = attributes or []
-        Fallible.__init__(self, faults)
-        self.mapped_attribute_faults=mapped_attribute_faults or []
+        Fallible.__init__(self, [fault for fault in faults if type(fault) == ReportFault])
+        self.mapped_attribute_faults = [fault for fault in faults if type(fault) == AttributeFault]
         if self.attributes:
             self.apply_attribute_faults(self.attributes)
         self.report_index = 0

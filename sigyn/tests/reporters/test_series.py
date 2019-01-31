@@ -13,7 +13,6 @@ class TestSeries(unittest.TestCase):
                 {'noisy': 10, 'noiseless': 100},
                 {'noisy': 100, 'noiseless': 10}]
         result = series_builder(data)
-        print(result)
         self.assertEqual(len([i for i in result]), 3)
         pass
 

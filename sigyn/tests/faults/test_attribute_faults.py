@@ -1,5 +1,5 @@
 import unittest
-from sigyn.faults import GaussianNoise, InterruptionFault
+from sigyn.faults import GaussianNoise, InterruptionFault, TypographicalFault
 
 
 class TestBasicFaults(unittest.TestCase):
@@ -16,4 +16,11 @@ class TestBasicFaults(unittest.TestCase):
         true_value = 100
         observed = i_fault.impact_truth(true_value)
         self.assertEqual(observed, None)
+        pass
+
+    def test_typo(self):
+        t_fault = TypographicalFault(likelihood=1, severity=1)
+        true_value = "Hello World"
+        observed = t_fault.impact_truth(true_value)
+        self.assertNotEqual(true_value, observed)
         pass

@@ -5,16 +5,16 @@ from sigyn.faults import AttributeFault, ReportFault
 
 class Reporter(Fallible):
     def __init__(self, attributes=None, faults=None):
-        self.attributes = attributes or []
+        self.attributes = attributes
         Fallible.__init__(self, faults=faults)
         self.mapped_attribute_faults = [fault for fault in self.faults if type(fault) == AttributeFault]
         self.faults = [fault for fault in self.faults if type(fault) != AttributeFault]
         if self.attributes:
-            self.apply_attribute_faults(self.attributes)
+            self.apply_attribute_faults()
         self.report_index = 0
 
-    def apply_attribute_faults(self, attributes):
-        for att in attributes:
+    def apply_attribute_faults(self):
+        for att in self.attributes:
             for fault in self.mapped_attribute_faults:
                 att.add_fault(fault)
         pass
@@ -34,15 +34,18 @@ class Reporter(Fallible):
     def get_attribute_measurements(self, truth_object):
         measurement = {}
         triggered_faults = {}
-        for attribute in self.attributes or generate_object_attributes(truth_object, attribute_faults=self.mapped_attribute_faults):
+        for attribute in self.get_or_introspect_attributes(truth_object):
             faults, measure = attribute.measure(truth_object)
             measurement[attribute.attribute_identifier] = measure
             triggered_faults[attribute.attribute_identifier] = faults
         return measurement, triggered_faults
 
+    def get_or_introspect_attributes(self, truth_object):
+        return self.attributes or generate_object_attributes(truth_object, attribute_faults=self.mapped_attribute_faults)
+
     def get_truth(self, truth_object):
         truth = {}
-        for attribute in self.attributes:
+        for attribute in self.get_or_introspect_attributes(truth_object):
             truth[attribute.attribute_identifier] = attribute.get_truth(truth_object)
         return truth
 

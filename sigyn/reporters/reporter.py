@@ -7,8 +7,7 @@ class Reporter(Fallible):
     def __init__(self, attributes=None, faults=None):
         self.attributes = attributes
         Fallible.__init__(self, faults=faults)
-        self.mapped_attribute_faults = [fault for fault in self.faults if type(fault) == AttributeFault]
-        self.faults = [fault for fault in self.faults if type(fault) != AttributeFault]
+        self.mapped_attribute_faults = [fault for fault in self.faults if issubclass(type(fault), AttributeFault)]
         if self.attributes:
             self.apply_attribute_faults()
         self.report_index = 0
@@ -27,7 +26,7 @@ class Reporter(Fallible):
 
     def measure(self, truth_object):
         measurement, triggered_faults = self.get_attribute_measurements(truth_object)
-        applied_faults, flawed_measurement = self.apply_all_faults(measurement)
+        applied_faults, flawed_measurement = self.apply_all_faults(measurement, fault_type=ReportFault)
         triggered_faults['reporter'] = applied_faults
         return triggered_faults, flawed_measurement
 

@@ -1,5 +1,5 @@
 import unittest
-from sigyn.faults import ScrambleAttributes, ConfuseSpecificAttributes
+from sigyn.faults import ScrambleAttributes, ConfuseSpecificAttributes, GaussianNoise
 from sigyn.reporters import Reporter
 from sigyn.attributes import Attribute
 
@@ -19,5 +19,14 @@ class TestReportFaults(unittest.TestCase):
         output_data = new_reporter(data).observed
         self.assertEqual(data['att1'], output_data['att2'])
         self.assertEqual(data['att2'], output_data['att1'])
+        self.assertNotEqual(data, output_data)
+        pass
+
+    def test_attribute_fault_mapping(self):
+        new_reporter = Reporter(attributes=[Attribute('att1'), Attribute('att2')], faults=GaussianNoise(sigma=1))
+        data = {'att1': 1, 'att2': 2}
+        output_data = new_reporter(data).observed
+        print(data)
+        print(output_data)
         self.assertNotEqual(data, output_data)
         pass

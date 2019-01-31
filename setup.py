@@ -9,6 +9,5 @@ setup(name='sigyn',
       license='MIT',
       packages=find_packages(),
       install_requires=[],
-      test_suite='nose.collector',
-      tests_require=['nose'],
+      test_suite='sigyn.tests',
       zip_safe=False)

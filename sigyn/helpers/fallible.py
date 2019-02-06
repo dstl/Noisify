@@ -12,11 +12,9 @@ class Fallible:
         self.faults.append(fault)
         return self
 
-    def apply_all_faults(self, incompletely_flawed_object, fault_type=None):
+    def apply_all_faults(self, incompletely_flawed_object):
         applied_faults = []
         for fault in self.faults:
-            if fault_type and not issubclass(type(fault), fault_type):
-                continue
             applied_fault, result = fault.apply(incompletely_flawed_object)
             if applied_fault:
                 incompletely_flawed_object = result

@@ -33,6 +33,7 @@ class ConfuseSpecificAttributes(ReportFault):
     def condition(self, triggering_object):
         return random.random() < self.likelihood
 
+    @register_implementation(priority=10)
     def impact_report(self, report_object):
         output = copy.deepcopy(report_object)
         output[self.attribute1], output[self.attribute2] = \

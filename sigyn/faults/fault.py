@@ -19,11 +19,11 @@ class MultipleDispatch(type):
         implementations = [(method, method._priority) for method in attrs.values() if hasattr(method, '_priority')]
         implementations.sort(key=lambda x: x[1])
         if implementations:
-            attrs['_implementations'] = [i[0] for i in implementations]
+            attrs['_implementations'] = [i for i in implementations]
             for parent_implementations in (getattr(b, '_implementations', None) for b in base):
                 if parent_implementations:
                     attrs['_implementations'] += parent_implementations
-            print(attrs['_implementations'])
+            attrs['_implementations'].sort(key=lambda x: x[1], reverse=True)
         return super(MultipleDispatch, cls).__new__(cls, name, base, attrs)
 
 
@@ -44,7 +44,7 @@ class Fault(SavedInitStatement, metaclass=MultipleDispatch):
         raise NotImplementedError
 
     def impact(self, impacted_object):
-        for implementation in self._implementations:
+        for implementation, priority in self._implementations:
             try:
                 return implementation(self, impacted_object)
             except(TypeError):
@@ -53,28 +53,19 @@ class Fault(SavedInitStatement, metaclass=MultipleDispatch):
 
 
 class AttributeFault(Fault):
-    _implementations = []
     @register_implementation(priority=1)
     def map_fault(self, truth_object):
+        print(truth_object)
         try:
-            for attribute, value in truth_object['attributes'].items():
-                truth_object['attributes'][attribute] = self.impact(value)
-        except TypeError:
+            for attribute, value in truth_object.items():
+                truth_object[attribute] = self.impact(value)
+        except KeyError:
             raise TypeError
 
 
-
 class ReportFault(Fault):
-    def impact(self, impacted_object):
-        return self.impact_report(impacted_object)
-
-    def impact_report(self, report_object):
-        raise NotImplementedError
+    pass
 
 
 class SeriesFault(Fault):
-    def impact(self, impacted_object):
-        return self.impact_series(impacted_object)
-
-    def impact_series(self, report_object):
-        raise NotImplementedError
+    pass

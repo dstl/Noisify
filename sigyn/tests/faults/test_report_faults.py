@@ -34,6 +34,7 @@ class TestReportFaults(unittest.TestCase):
         new_reporter = Reporter(faults=GaussianNoise(sigma=1))
         data = {'att1': 1, 'att2': 2}
         output_data = new_reporter(data).observed
+        print(new_reporter(data))
         self.assertNotEqual(data, output_data)
         self.assertEqual(data.keys(), output_data.keys())
         pass

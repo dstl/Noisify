@@ -13,6 +13,7 @@ class ScrambleAttributes(ReportFault):
     def condition(self, triggering_object):
         return True
 
+    @register_implementation(priority=10)
     def impact_report(self, report_object):
         confusable_attribute_identifiers = self.attribute_identifiers or [att for att in report_object]
         new_attribute_order = scramble(confusable_attribute_identifiers, self.scrambledness, 3)

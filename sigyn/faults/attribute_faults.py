@@ -14,6 +14,7 @@ class GaussianNoise(AttributeFault):
     def condition(self, triggering_object):
         return True
 
+    @register_implementation(priority=10)
     def impact_truth(self, truth):
         return random.gauss(truth, self.sigma)
 
@@ -29,6 +30,7 @@ class InterruptionFault(AttributeFault):
     def condition(self, triggering_object):
         return random.random() < self.likelihood
 
+    @register_implementation(priority=10)
     def impact_truth(self, truth):
         return None
 
@@ -44,5 +46,6 @@ class TypographicalFault(AttributeFault):
     def condition(self, triggering_object):
         return random.random() < self.likelihood
 
+    @register_implementation(priority=10)
     def impact_truth(self, truth_object):
         return typo(str(truth_object), self.severity)

@@ -1,9 +1,35 @@
-from abc import ABC
-
 from sigyn.helpers import SavedInitStatement
 
 
-class Fault(SavedInitStatement):
+def register_implementation(priority=100):
+    print('Called to register with priority %d' % priority)
+    def wrap(func):
+        func._priority = priority
+        return func
+    return wrap
+
+
+class MultipleDispatch(type):
+    @classmethod
+    def __prepare__(mcs, name, bases):
+        print(name)
+        return {'register_implementation': register_implementation}
+
+    def __new__(cls, name, base, attrs):
+        implementations = [(method, method._priority) for method in attrs.values() if hasattr(method, '_priority')]
+        implementations.sort(key=lambda x: x[1])
+        if implementations:
+            attrs['_implementations'] = [i[0] for i in implementations]
+            for parent_implementations in (getattr(b, '_implementations', None) for b in base):
+                if parent_implementations:
+                    attrs['_implementations'] += parent_implementations
+            print(attrs['_implementations'])
+        return super(MultipleDispatch, cls).__new__(cls, name, base, attrs)
+
+
+class Fault(SavedInitStatement, metaclass=MultipleDispatch):
+    _implementations = []
+
     def __init__(self, *args, **kwargs):
         SavedInitStatement.__init__(self, *args, **kwargs)
         pass
@@ -18,18 +44,27 @@ class Fault(SavedInitStatement):
         raise NotImplementedError
 
     def impact(self, impacted_object):
-        raise NotImplementedError
+        for implementation in self._implementations:
+            try:
+                return implementation(self, impacted_object)
+            except(TypeError):
+                continue
+        return impacted_object
 
 
-class AttributeFault(Fault, ABC):
-    def impact(self, impacted_object):
-        return self.impact_truth(impacted_object)
+class AttributeFault(Fault):
+    _implementations = []
+    @register_implementation(priority=1)
+    def map_fault(self, truth_object):
+        try:
+            for attribute, value in truth_object['attributes'].items():
+                truth_object['attributes'][attribute] = self.impact(value)
+        except TypeError:
+            raise TypeError
 
-    def impact_truth(self, truth_object):
-        raise NotImplementedError
 
 
-class ReportFault(Fault, ABC):
+class ReportFault(Fault):
     def impact(self, impacted_object):
         return self.impact_report(impacted_object)
 
@@ -37,7 +72,7 @@ class ReportFault(Fault, ABC):
         raise NotImplementedError
 
 
-class SeriesFault(Fault, ABC):
+class SeriesFault(Fault):
     def impact(self, impacted_object):
         return self.impact_series(impacted_object)
 

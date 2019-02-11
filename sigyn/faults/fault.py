@@ -2,7 +2,6 @@ from sigyn.helpers import SavedInitStatement
 
 
 def register_implementation(priority=100):
-    print('Called to register with priority %d' % priority)
     def wrap(func):
         func._priority = priority
         return func
@@ -12,7 +11,6 @@ def register_implementation(priority=100):
 class MultipleDispatch(type):
     @classmethod
     def __prepare__(mcs, name, bases):
-        print(name)
         return {'register_implementation': register_implementation}
 
     def __new__(cls, name, base, attrs):
@@ -49,17 +47,17 @@ class Fault(SavedInitStatement, metaclass=MultipleDispatch):
                 return implementation(self, impacted_object)
             except(TypeError):
                 continue
-        return impacted_object
+        raise NotImplementedError
 
 
 class AttributeFault(Fault):
-    @register_implementation(priority=1)
+    @register_implementation(priority=0)
     def map_fault(self, truth_object):
-        print(truth_object)
         try:
             for attribute, value in truth_object.items():
                 truth_object[attribute] = self.impact(value)
-        except KeyError:
+            return truth_object
+        except AttributeError:
             raise TypeError
 
 

@@ -25,3 +25,14 @@ class TestBasicFaults(unittest.TestCase):
         observed = t_fault.impact(true_value)
         self.assertNotEqual(true_value, observed)
         pass
+
+    def test_missing_implementation(self):
+        p_fault = GaussianNoise(sigma=0.1)
+
+        class UselessClass:
+            pass
+
+        useless_object = UselessClass()
+        with self.assertRaises(NotImplementedError):
+            p_fault.impact(useless_object)
+        pass

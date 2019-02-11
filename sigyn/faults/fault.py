@@ -47,6 +47,10 @@ class Fault(SavedInitStatement, metaclass=MultipleDispatch):
                 return implementation(self, impacted_object)
             except(TypeError):
                 continue
+            except(AttributeError):
+                continue
+            except(ImportError):
+                continue
         raise NotImplementedError
 
 

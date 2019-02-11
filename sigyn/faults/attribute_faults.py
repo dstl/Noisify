@@ -16,10 +16,7 @@ class GaussianNoise(AttributeFault):
 
     @register_implementation(priority=10)
     def numpy_array(self, array_like_object):
-        try:
-            import numpy as np
-        except ImportError:
-            raise TypeError
+        import numpy as np
         return np.random.normal(array_like_object, self.sigma)
 
     @register_implementation(priority=1)

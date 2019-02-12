@@ -1,8 +1,17 @@
-from sigyn.helpers import Fallible
+from noisify.helpers import Fallible
 from .reporter import Reporter
+from pprint import pformat
 
 
-class SeriesBuilder(Fallible):
+def is_atom(unknown_object):
+    if hasattr(unknown_object, 'shape'):
+        return True
+    if hasattr(unknown_object, '__len__') and not hasattr(unknown_object, 'keys'):
+        return False
+    return True
+
+
+class Noisifier(Fallible):
     def __init__(self, reporter=None, faults=None):
         self.reports = []
         Fallible.__init__(self, faults)
@@ -10,6 +19,8 @@ class SeriesBuilder(Fallible):
         pass
 
     def get_series(self, source_truths, key=None):
+        if is_atom(source_truths):
+            source_truths = [source_truths]
         if self.faults:
             return self.apply_all_faults(self.create_reports(source_truths, key=key))
         else:
@@ -32,3 +43,6 @@ class SeriesBuilder(Fallible):
 
     def __call__(self, *args, **kwargs):
         return self.get_series(*args, **kwargs)
+
+    def __repr__(self):
+        return pformat({'Noisifier': self.reporter})

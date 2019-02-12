@@ -28,7 +28,7 @@ class Fallible:
 
 
 def evaluate_faults(faults):
-    from sigyn.faults import Fault
+    from noisify.faults import Fault
     if isinstance(faults, Fault):
         return [faults]
     try:

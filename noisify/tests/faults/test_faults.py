@@ -1,5 +1,5 @@
 import unittest
-from sigyn.faults import Fault, register_implementation
+from noisify.faults import Fault, register_implementation
 
 
 class AddOneFault(Fault):

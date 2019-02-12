@@ -1,4 +1,5 @@
-from sigyn.helpers import Fallible
+from noisify.helpers import Fallible
+from pprint import pformat
 
 
 class Attribute(Fallible):
@@ -23,3 +24,6 @@ class Attribute(Fallible):
             return Fallible.__add__(self, other)
         else:
             raise TypeError('Attribute addition requires attributes of the same type')
+
+    def __repr__(self):
+        return pformat((self.attribute_identifier, {'faults': [i for i in self.faults]}))

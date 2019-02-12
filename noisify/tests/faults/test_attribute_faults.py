@@ -1,5 +1,5 @@
 import unittest
-from sigyn.faults import GaussianNoise, InterruptionFault, TypographicalFault
+from noisify.faults import GaussianNoise, InterruptionFault, TypographicalFault
 
 
 class TestBasicFaults(unittest.TestCase):

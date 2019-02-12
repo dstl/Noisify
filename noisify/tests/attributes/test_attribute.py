@@ -1,6 +1,6 @@
 import unittest
-from sigyn.attributes import Attribute
-from sigyn.faults import GaussianNoise, InterruptionFault
+from noisify.attributes import Attribute
+from noisify.faults import GaussianNoise, InterruptionFault
 
 
 class TestAttributeLookup(unittest.TestCase):

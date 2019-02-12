@@ -1,10 +1,11 @@
-from sigyn.helpers import Fallible
-from sigyn.attributes import generate_object_attributes
+from noisify.helpers import Fallible
+from noisify.attributes import generate_object_attributes
+from pprint import pformat
 
 
 class Reporter(Fallible):
     def __init__(self, attributes=None, faults=None):
-        self.attributes = attributes
+        self.attributes = attributes or []
         Fallible.__init__(self, faults=faults)
         self.report_index = 0
 
@@ -66,6 +67,12 @@ class Reporter(Fallible):
             new_attributes.append(report2.get_attribute_by_id(attribute_id))
         return new_attributes
 
+    def __repr__(self):
+        return pformat({'Reporter':
+                    {'Attributes': [a for a in self.attributes],
+                     'Faults': [f for f in self.faults]}
+                })
+
 
 class Report:
     def __init__(self, identifier, truth, triggered_faults, observed):
@@ -75,5 +82,5 @@ class Report:
         self.observed = observed
 
     def __repr__(self):
-        return str(self.observed)
+        return "Observed value: %s" % str(self.observed)
 

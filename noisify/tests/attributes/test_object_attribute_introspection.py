@@ -1,5 +1,5 @@
 import unittest
-from sigyn.attributes import generate_object_attributes
+from noisify.attributes import generate_object_attributes
 
 
 class TestObjectAttributeIntrospection(unittest.TestCase):

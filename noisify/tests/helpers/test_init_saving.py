@@ -1,5 +1,5 @@
 import unittest
-from sigyn.helpers import SavedInitStatement
+from noisify.helpers import SavedInitStatement
 from ast import literal_eval
 
 

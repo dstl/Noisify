@@ -1,7 +1,7 @@
 import unittest
-from sigyn.faults import ScrambleAttributes, ConfuseSpecificAttributes, GaussianNoise
-from sigyn.reporters import Reporter
-from sigyn.attributes import Attribute
+from noisify.faults import ScrambleAttributes, ConfuseSpecificAttributes, GaussianNoise
+from noisify.reporters import Reporter
+from noisify.attributes import Attribute
 
 
 class TestReportFaults(unittest.TestCase):

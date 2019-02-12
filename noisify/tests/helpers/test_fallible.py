@@ -1,6 +1,6 @@
 import unittest
-from sigyn.faults import GaussianNoise
-from sigyn.helpers.fallible import Fallible, evaluate_faults
+from noisify.faults import GaussianNoise
+from noisify.helpers.fallible import Fallible, evaluate_faults
 from ast import literal_eval
 
 

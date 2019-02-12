@@ -1,4 +1,4 @@
-from sigyn.attributes import Attribute
+from noisify.attributes import Attribute
 
 
 def generate_object_attribute_identifiers(unknown_object):

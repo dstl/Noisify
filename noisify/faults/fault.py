@@ -1,41 +1,8 @@
 from noisify.helpers import SavedInitStatement
 from pprint import pformat
-from functools import singledispatch, update_wrapper
 from typing import get_type_hints
 
-
-def register_implementation(priority=-1):
-    def wrap(func):
-        func._priority = priority
-        return func
-    return wrap
-
-
-class MultipleDispatch(type):
-    @classmethod
-    def __prepare__(mcs, name, bases):
-        return {'register_implementation': register_implementation}
-
-    def __new__(cls, name, base, attrs):
-        implementations = [(method, method._priority) for method in attrs.values() if hasattr(method, '_priority')]
-        if implementations:
-            attrs['_implementations'] = [i for i in implementations]
-            for parent_implementations in (getattr(b, '_implementations', None) for b in base):
-                if parent_implementations:
-                    attrs['_implementations'] += parent_implementations
-            attrs['_implementations'].sort(key=lambda x: x[1], reverse=True)
-        return super(MultipleDispatch, cls).__new__(cls, name, base, attrs)
-
-
-def multiple_method_dispatch(method):
-    dispatcher = singledispatch(method)
-
-    def wrapper(*args, **kwargs):
-        return dispatcher.dispatch(args[1].__class__)(*args, **kwargs)
-    wrapper.register = dispatcher.register
-    dispatcher.registry = {}
-    update_wrapper(wrapper, method)
-    return wrapper
+from noisify.helpers.multi_dispatch import register_implementation, MultipleDispatch
 
 
 class Fault(SavedInitStatement, metaclass=MultipleDispatch):

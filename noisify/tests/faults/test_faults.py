@@ -1,5 +1,6 @@
 import unittest
-from noisify.faults import Fault, register_implementation
+from noisify.faults import Fault
+from noisify.helpers.multi_dispatch import register_implementation
 
 
 class AddOneFault(Fault):

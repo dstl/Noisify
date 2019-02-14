@@ -10,5 +10,4 @@ setup(name='noisify',
       packages=find_packages(),
       install_requires=[],
       test_suite='noisify.tests',
-      test_requires=['numpy'],
-      zip_safe=False)
+      test_requires=['numpy', 'Pillow', 'pandas'])

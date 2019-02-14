@@ -1,10 +1,7 @@
 def register_implementation(priority=-1):
     """
     Decorator for use with MultipleDispatch derived classes, accepts a priority numeric. It does not need to be
-    imported, but your IDE may complain as adding static decorator methods to the metaclass is not a typical
-    thing to do.
-    :param priority:
-    :return:
+    imported.
     """
     def wrap(func):
         func._priority = priority

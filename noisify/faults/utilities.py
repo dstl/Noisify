@@ -29,4 +29,12 @@ def dropped_scramble(collection, scrambledness, confusion_range):
 
 
 def typo(string, severity):
+    """
+    Roughly rearranges string with the occasional missed character, based on applying a gaussian noise filter
+    to the string character indexes and then rounding to the closest index.
+
+    :param string:
+    :param severity:
+    :return: mistyped string
+    """
     return ''.join(dropped_scramble(string, float(severity), 3))

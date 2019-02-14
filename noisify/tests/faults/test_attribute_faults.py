@@ -1,5 +1,5 @@
 import unittest
-from noisify.faults import GaussianNoise, InterruptionFault, TypographicalFault
+from noisify.faults.attribute_faults import *
 
 
 class TestBasicFaults(unittest.TestCase):
@@ -10,6 +10,22 @@ class TestBasicFaults(unittest.TestCase):
         error_amount = abs(true_value - observed) / true_value
         self.assertLess(error_amount, 0.15)
         self.assertNotEqual(true_value, observed)
+        pass
+
+    def test_unit_fault(self):
+        u_fault = UnitFault(unit_modifier=lambda x : x+10)
+        true_value = 100
+        observed = u_fault.impact(true_value)
+        self.assertNotEqual(true_value, observed)
+        self.assertEqual(true_value+10, observed)
+        pass
+
+    def test_calibration_fault(self):
+        c_fault = CalibrationFault(offset=10)
+        true_value = 100
+        observed = c_fault.impact(true_value)
+        self.assertNotEqual(true_value, observed)
+        self.assertEqual(true_value+10, observed)
         pass
 
     def test_interruption(self):

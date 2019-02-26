@@ -21,7 +21,7 @@ class TestAttributeLookup(unittest.TestCase):
 
     def test_fail(self):
         test_attribute = Attribute('test')
-        with self.assertRaises(TypeError):
+        with self.assertRaises(ValueError):
             test_attribute.get_truth(None)
         pass
 

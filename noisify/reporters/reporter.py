@@ -24,18 +24,24 @@ class Reporter(Fallible):
     def get_attribute_measurements(self, truth_object):
         measurement = {}
         triggered_faults = {}
-        for attribute in self.get_or_introspect_attributes(truth_object):
+        attributes = self.get_or_introspect_attributes(truth_object)
+        if not attributes:
+            return truth_object, {}
+        for attribute in attributes:
             faults, measure = attribute.measure(truth_object)
             measurement[attribute.attribute_identifier] = measure
             triggered_faults[attribute.attribute_identifier] = faults
         return measurement, triggered_faults
 
     def get_or_introspect_attributes(self, truth_object):
-        return self.attributes or generate_object_attributes(truth_object)
+        return self.attributes or [i for i in generate_object_attributes(truth_object)]
 
     def get_truth(self, truth_object):
+        attributes = self.get_or_introspect_attributes(truth_object)
+        if not attributes:
+            return truth_object
         truth = {}
-        for attribute in self.get_or_introspect_attributes(truth_object):
+        for attribute in attributes:
             truth[attribute.attribute_identifier] = attribute.get_truth(truth_object)
         return truth
 

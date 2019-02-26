@@ -129,10 +129,3 @@ class AttributeFault(Fault):
         except AttributeError:
             raise TypeError
 
-
-class ReportFault(Fault):
-    pass
-
-
-class SeriesFault(Fault):
-    pass

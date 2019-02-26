@@ -89,6 +89,16 @@ class UnitFault(AttributeFault):
     def condition(self, triggering_object):
         return True
 
+    @register_implementation(priority=15)
+    def pil_image(self, image_object):
+        from PIL import Image
+        import numpy as np
+
+        input_size = (image_object.height, image_object.width, get_mode_size(image_object.mode))
+        image_array = np.array(image_object)
+        output = Image.fromarray(np.uint8(np.clip(self.unit_modifier(image_array), 0, 255)))
+        return output
+
     @register_implementation(priority=1)
     def numeric(self, numeric_object):
         return self.unit_modifier(numeric_object)
@@ -134,6 +144,24 @@ class InterruptionFault(AttributeFault):
 
     def condition(self, triggering_object):
         return random.random() < self.likelihood
+
+    @register_implementation(priority=15)
+    def pil_image(self, image_object):
+        from PIL import Image
+        import numpy as np
+
+        input_size = (image_object.height, image_object.width, get_mode_size(image_object.mode))
+        image_array = np.array(image_object)
+        output = Image.fromarray(np.uint8(self.numpy_array(image_array)))
+        return output
+
+    @register_implementation(priority=12)
+    def numpy_array(self, array_like_object):
+        import numpy as np
+        noise_mask = np.random.uniform(size=array_like_object.shape)
+        output_array = array_like_object.copy()
+        output_array[noise_mask < self.likelihood] = 0
+        return output_array
 
     @register_implementation(priority=10)
     def impact_truth(self, truth):

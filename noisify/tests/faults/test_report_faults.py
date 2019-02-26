@@ -6,11 +6,14 @@ from noisify.attributes import Attribute
 
 class TestReportFaults(unittest.TestCase):
     def test_attribute_scrambling(self):
-        attributes_list = [Attribute('att%d' % index) for index in range(100)]
-        new_reporter = Reporter(attributes=attributes_list, faults=ScrambleAttributes(scrambledness=100))
-        data = {'att%d' % index: index for index in range(100)}
+        attributes_list = [Attribute('att%d' % index) for index in range(50)]
+        new_reporter = Reporter(attributes=attributes_list)
+        data = {'att%d' % index: index for index in range(50)}
         output_data = new_reporter(data).observed
+        scramble_fault = ScrambleAttributes(scrambledness=100)
+        output_data = scramble_fault.impact_report(output_data)
         self.assertNotEqual(data, output_data)
+        self.assertEqual({i for i in data.keys()}, {i for i in output_data.keys()})
         pass
 
     def test_specific_attribute_confusion(self):

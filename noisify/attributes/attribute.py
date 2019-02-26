@@ -8,12 +8,12 @@ class Attribute(Fallible):
         self.attribute_identifier = attribute_identifier
 
     def get_truth(self, truth_object):
-        if hasattr(truth_object, self.attribute_identifier):
-            return getattr(truth_object, self.attribute_identifier)
-        elif self.attribute_identifier in truth_object:
+        try:
             return truth_object[self.attribute_identifier]
-        else:
-            raise ValueError("Attribute %s not found in %s" % (self.attribute_identifier, repr(truth_object)))
+        except:
+            if hasattr(truth_object, self.attribute_identifier):
+                return getattr(truth_object, self.attribute_identifier)
+        raise ValueError("Attribute %s not found in %s" % (self.attribute_identifier, repr(truth_object)))
 
     def measure(self, truth_object):
         truth = self.get_truth(truth_object)

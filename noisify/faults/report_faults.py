@@ -23,6 +23,19 @@ class ScrambleAttributes(Fault):
             out_array[coordinate] = value
         return out_array
 
+    @register_implementation(priority=5)
+    def pillow_image(self, pillow_image):
+        x_size, y_size = pillow_image.size
+        out_image = pillow_image.copy()
+        pixels = out_image.load()
+        for i in range(int(x_size * y_size * min(float(self.scrambledness)/10, 1.0) / 4)):
+            x1 = random.randint(0, x_size-1)
+            x2 = random.randint(0, x_size-1)
+            y1 = random.randint(0, y_size-1)
+            y2 = random.randint(0, y_size-1)
+            pixels[x2, y2] = pixels[x1, y1]
+        return out_image
+
     @register_implementation(priority=10)
     def impact_report(self, report_object):
         confusable_attribute_identifiers = list(report_object.keys())

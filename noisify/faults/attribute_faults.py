@@ -163,7 +163,7 @@ class InterruptionFault(AttributeFault):
         output_array[noise_mask < self.likelihood] = 0
         return output_array
 
-    @register_implementation(priority=10)
+    @register_implementation(priority=-1)
     def impact_truth(self, truth):
         return None
 
@@ -194,6 +194,23 @@ class TypographicalFault(AttributeFault):
     @register_implementation(priority=1)
     def impact_string(self, string_object: str):
         return typo(string_object, self.severity)
+
+    @register_implementation(priority=1)
+    def impact_int(self, int_object: int):
+        return int(self.impact_string(str(int_object)))
+
+    @register_implementation(priority=1)
+    def impact_float(self, float_object: float):
+        scrambled_float = self.impact_string(str(float_object))
+        point_found = False
+        clean_float = []
+        for index, char in enumerate(scrambled_float):
+            if char == '.':
+                if point_found:
+                    continue
+                point_found = True
+            clean_float.append(char)
+        return float(''.join(clean_float))
 
     @register_implementation()
     def null_impact(self, truth_object):

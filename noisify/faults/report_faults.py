@@ -49,3 +49,24 @@ class ConfuseSpecificAttributes(Fault):
         output[self.attribute1], output[self.attribute2] = \
             (report_object[self.attribute2], report_object[self.attribute1])
         return output
+
+
+class LoseEntireReport(Fault):
+    """
+    Replaces entire report with None, activates according to set likelihood.
+    """
+    def __init__(self, likelihood=0):
+        """
+        Instantiate with likelihood of interruption as a 0-1 float.
+        :param likelihood:
+        """
+        Fault.__init__(self, likelihood=likelihood)
+        self.likelihood = likelihood
+        pass
+
+    def condition(self, triggering_object):
+        return random.random() < self.likelihood
+
+    @register_implementation(priority=10)
+    def impact_truth(self, truth):
+        return None

@@ -32,11 +32,9 @@ class GaussianNoise(AttributeFault):
         self.sigma = sigma
         pass
 
-    def condition(self, triggering_object):
-        return True
-
     @register_implementation(priority=15)
     def pil_image(self, image_object):
+        """Support for PIL image objects, undetectable unless high sigma given"""
         from PIL import Image
         import numpy as np
 
@@ -48,18 +46,21 @@ class GaussianNoise(AttributeFault):
 
     @register_implementation(priority=12)
     def pandas_df(self, data_frame):
+        """Support for pandas dataframes"""
         import numpy as np
         noise_mask = np.random.normal(scale=self.sigma, size=data_frame.shape)
         return data_frame.add(noise_mask)
 
     @register_implementation(priority=10)
     def numpy_array(self, array_like_object):
+        """Support for numpy arrays"""
         import numpy as np
         noise_mask = np.random.normal(scale=self.sigma, size=array_like_object.size)
         return array_like_object + noise_mask
 
     @register_implementation(priority=1)
     def python_numeric(self, python_numeric_object):
+        """Support for basic python numeric types"""
         return random.gauss(python_numeric_object, self.sigma)
 
 
@@ -82,16 +83,13 @@ class UnitFault(AttributeFault):
         """
         if not unit_modifier:
             raise NotImplementedError('You need to provide a function to convert the units')
-        AttributeFault.__init__(self, unit_modifier=unit_modifier)
+        AttributeFault.__init__(self, likelihood=likelihood, unit_modifier=unit_modifier)
         self.unit_modifier = unit_modifier
-        self.likelihood=likelihood
         pass
-
-    def condition(self, triggering_object):
-        return random.random() < self.likelihood
 
     @register_implementation(priority=15)
     def pil_image(self, image_object):
+        """Support for PIL images"""
         from PIL import Image
         import numpy as np
 
@@ -102,6 +100,7 @@ class UnitFault(AttributeFault):
 
     @register_implementation(priority=1)
     def numeric(self, numeric_object):
+        """Support for basic numeric types, including dataframes and numpy arrays"""
         return self.unit_modifier(numeric_object)
 
 
@@ -140,14 +139,11 @@ class InterruptionFault(AttributeFault):
         :param likelihood:
         """
         AttributeFault.__init__(self, likelihood=likelihood)
-        self.likelihood = likelihood
         pass
-
-    def condition(self, triggering_object):
-        return random.random() < self.likelihood
 
     @register_implementation(priority=15)
     def pil_image(self, image_object):
+        """Support for PIL images"""
         from PIL import Image
         import numpy as np
 
@@ -158,6 +154,7 @@ class InterruptionFault(AttributeFault):
 
     @register_implementation(priority=12)
     def numpy_array(self, array_like_object):
+        """Support numpy arrays and pandas dataframes"""
         import numpy as np
         noise_mask = np.random.uniform(size=array_like_object.shape)
         output_array = array_like_object.copy()
@@ -166,6 +163,7 @@ class InterruptionFault(AttributeFault):
 
     @register_implementation(priority=-1)
     def impact_truth(self, truth):
+        """Basic behaviour, just returns None!"""
         return None
 
 
@@ -186,22 +184,21 @@ class TypographicalFault(AttributeFault):
         :param severity:
         """
         AttributeFault.__init__(self, likelihood=likelihood, severity=severity)
-        self.likelihood = likelihood
         self.severity = severity
-
-    def condition(self, triggering_object):
-        return random.random() < self.likelihood
 
     @register_implementation(priority=1)
     def impact_string(self, string_object: str):
+        """Scrambles strings"""
         return typo(string_object, self.severity)
 
     @register_implementation(priority=1)
     def impact_int(self, int_object: int):
+        """Scrambles ints"""
         return int(self.impact_string(str(int_object)) or 0)
 
     @register_implementation(priority=1)
     def impact_float(self, float_object: float):
+        """Scrambles floats, ensures still valid before returning"""
         scrambled_float = self.impact_string(str(float_object))
         point_found = False
         clean_float = []

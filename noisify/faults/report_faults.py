@@ -10,9 +10,6 @@ class ScrambleAttributes(Fault):
         self.attribute_identifiers = attribute_identifiers
         Fault.__init__(self, likelihood=scrambledness, attribute_identifiers=attribute_identifiers)
 
-    def condition(self, triggering_object):
-        return True
-
     @register_implementation(priority=1)
     def numpy_array(self, array_like):
         import numpy as np
@@ -48,13 +45,9 @@ class ScrambleAttributes(Fault):
 
 class ConfuseSpecificAttributes(Fault):
     def __init__(self, attribute1, attribute2, likelihood=0):
-        self.likelihood = likelihood
         self.attribute1 = attribute1
         self.attribute2 = attribute2
         Fault.__init__(self, attribute1, attribute2, likelihood=likelihood)
-
-    def condition(self, triggering_object):
-        return random.random() < self.likelihood
 
     @register_implementation(priority=10)
     def impact_report(self, report_object):
@@ -74,11 +67,7 @@ class LoseEntireReport(Fault):
         :param likelihood:
         """
         Fault.__init__(self, likelihood=likelihood)
-        self.likelihood = likelihood
         pass
-
-    def condition(self, triggering_object):
-        return random.random() < self.likelihood
 
     @register_implementation(priority=10)
     def impact_truth(self, truth):

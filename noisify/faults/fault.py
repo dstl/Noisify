@@ -1,6 +1,7 @@
 from noisify.helpers import SavedInitStatement
 from pprint import pformat
 from typing import get_type_hints
+import random
 
 from noisify.helpers.multi_dispatch import register_implementation, MultipleDispatch
 
@@ -14,6 +15,9 @@ class Fault(SavedInitStatement, metaclass=MultipleDispatch):
 
     All implementations will be attempted using a try except loop which will except Type, Attribute and Import errors.
     If no implementations succeed, the Fault will return the original object, unchanged.
+
+    By default faults are constitutively active, this can be overridden at instantiation by providing a
+    'likelihood' keyword argument with a probability of activation as a float.
 
     Example Usage:
 
@@ -64,18 +68,42 @@ class Fault(SavedInitStatement, metaclass=MultipleDispatch):
     """
     def __init__(self, *args, **kwargs):
         SavedInitStatement.__init__(self, *args, **kwargs)
+        if 'likelihood' in kwargs:
+            self.likelihood = kwargs['likelihood']
+        else:
+            self.likelihood = 1.0
         pass
 
+    def condition(self, triggering_object):
+        """
+        Base condition method, applies fault either constitutively or according to a likelihood argument at
+        instantiation.
+
+        :param triggering_object: Can be used to create object-type dependant activation in overridden methods
+        :return: Boolean of whether or not the fault applies
+        """
+
+        return random.random() < self.likelihood
+
     def apply(self, not_faulted_object):
+        """
+        Applies the fault to an object, returns self and the new object if the activation condition is met.
+        :param not_faulted_object:
+        :return: self or None, impacted_object
+        """
         if self.condition(not_faulted_object):
             new_observation = self.impact(not_faulted_object)
             return self, new_observation
         return None, not_faulted_object
 
-    def condition(self, triggering_object):
-        raise NotImplementedError
-
     def impact(self, impacted_object):
+        """
+        Attempts to apply the fault to an object, cycles through all implementations until one succesfully executes.
+        If none execute it will return the original object, unharmed.
+
+        :param impacted_object:
+        :return:
+        """
         for implementation, priority in self._implementations:
             type_hints = get_type_hints(implementation)
             if type_hints:
@@ -101,9 +129,6 @@ class Fault(SavedInitStatement, metaclass=MultipleDispatch):
     def __repr__(self):
         return 'Fault: %s %s' % (self.name, self.init_statement)
 
-    def formatted_string(self, indent=0):
-        return pformat(self, indent=indent)
-
 
 class AttributeFault(Fault):
     """
@@ -119,8 +144,26 @@ class AttributeFault(Fault):
         >>> noise.impact({'A group': 100, 'of numbers': 123})
         {'of numbers': 122.83439465953323, 'A group': 99.69284150349345}
     """
+
+    def condition(self, triggering_object):
+        """
+        Overrides the condition method to be constitutively active at the initial mapping stage.
+        :param triggering_object:
+        :return:
+        """
+        if isinstance(triggering_object, dict):
+            return True
+        else:
+            return Fault.condition(self, triggering_object)
+
     @register_implementation(priority=0)
     def map_fault(self, truth_object):
+        """
+        Attempts to apply the fault to all subitems of the given object, in practice this means
+        calling the fault on all values of a dict.
+        :param truth_object:
+        :return:
+        """
         try:
             for attribute, value in truth_object.items():
                 if self.condition(value):

@@ -24,8 +24,7 @@ class TestGeneralFaultBehaviour(unittest.TestCase):
             pass
 
         useless_object = UselessClass()
-        with self.assertRaises(NotImplementedError):
-            p_fault.impact(useless_object)
+        self.assertEqual(useless_object, p_fault.impact(useless_object))
         pass
 
     def test_fault_priority(self):

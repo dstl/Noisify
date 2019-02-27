@@ -75,7 +75,7 @@ class UnitFault(AttributeFault):
     >>> kelvin_fault.impact(21)
     294.15
     """
-    def __init__(self, unit_modifier=None):
+    def __init__(self, likelihood=1.0, unit_modifier=None):
         """
         Instantiate with a function or lambda to apply the necessary unit conversion to a numeric
         :param unit_modifier:
@@ -84,10 +84,11 @@ class UnitFault(AttributeFault):
             raise NotImplementedError('You need to provide a function to convert the units')
         AttributeFault.__init__(self, unit_modifier=unit_modifier)
         self.unit_modifier = unit_modifier
+        self.likelihood=likelihood
         pass
 
     def condition(self, triggering_object):
-        return True
+        return random.random() < self.likelihood
 
     @register_implementation(priority=15)
     def pil_image(self, image_object):
@@ -197,21 +198,17 @@ class TypographicalFault(AttributeFault):
 
     @register_implementation(priority=1)
     def impact_int(self, int_object: int):
-        return int(self.impact_string(str(int_object)))
+        return int(self.impact_string(str(int_object)) or 0)
 
     @register_implementation(priority=1)
     def impact_float(self, float_object: float):
         scrambled_float = self.impact_string(str(float_object))
         point_found = False
         clean_float = []
-        for index, char in enumerate(scrambled_float):
+        for char in scrambled_float:
             if char == '.':
                 if point_found:
                     continue
                 point_found = True
             clean_float.append(char)
-        return float(''.join(clean_float))
-
-    @register_implementation()
-    def null_impact(self, truth_object):
-        return truth_object
+        return float(''.join(clean_float) or 0)

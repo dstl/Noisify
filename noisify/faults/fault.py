@@ -13,7 +13,7 @@ class Fault(SavedInitStatement, metaclass=MultipleDispatch):
     Subclasses can decorate implementations with the "register_implementation(priority=x)" decorator.
 
     All implementations will be attempted using a try except loop which will except Type, Attribute and Import errors.
-    If no implementations succeed, the Fault will raise a NotImplementedError.
+    If no implementations succeed, the Fault will return the original object, unchanged.
 
     Example Usage:
 
@@ -92,7 +92,7 @@ class Fault(SavedInitStatement, metaclass=MultipleDispatch):
                 continue
             except ImportError:
                 continue
-        raise NotImplementedError
+        return impacted_object
 
     @property
     def name(self):

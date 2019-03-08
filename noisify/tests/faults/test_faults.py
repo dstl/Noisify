@@ -3,9 +3,6 @@ from noisify.faults import Fault
 
 
 class AddOneFault(Fault):
-    def condition(self, triggering_object):
-        return True
-
     @register_implementation(priority=1)
     def add_to_int_string(self, integer_string_object):
         return integer_string_object + "1"

@@ -49,11 +49,34 @@ Add noise to numpy arrays
     [Observed value: [0.09172393 2.52539794 1.38823741 2.85571154 2.85571154 6.37596668
                       4.7135771  7.28358719 6.83600156 9.40973018]]
 
-Add noise to images
+Read an image
 
-    >>>
+   >>> from PIL import Image
+   >>> test_image = Image.open(dstl.jpg)
+   >>> test_image.show()
 
-**Noisify** allows you to build flexible data augmentation (and corruption) pipelines for arbitrary objects.
+.. image:: _static/dstl.jpg
+   :width: 339px
+   :height: 158px
+   :scale: 70 %
+   :alt: unchanged image
+   :align: center
+
+And now with noise
+
+   >>> from noisify.recipes import human_error, machine_error
+   >>> combined_noise = machine_error(5) + human_error(5)
+   >>> for out_image in combined_noise(test_image):
+   ...     out_image.observed.show()
+
+.. image:: _static/noisy_dstl.jpg
+   :width: 339px
+   :height: 158px
+   :scale: 70 %
+   :alt: image with random noise
+   :align: center
+
+**Noisify** allows you to build flexible data augmentation pipelines for arbitrary objects.
 All pipelines are built from simple high level objects, plugged together like lego.
 Use noisify to stress test application interfaces, verify data cleaning pipelines, and to make your ML algorithms more
 robust to real world conditions.
@@ -63,9 +86,9 @@ Features
 
 Noisify provides data augmentation through a simple high level abstraction
 
-- Build reporters to apply augmentation to any object
+- Build reporters to apply augmentation to any object, images, dataframes, database interfaces etc.
 - Compose augmentations from configurable flaw objects
-- Build recipes to configure new reporters using single parameters
+- Build recipes to deploy pipelines simply
 - Everything is composable, everything is polymorphic
 
 Noisify is built for python 3+.
@@ -73,7 +96,7 @@ Noisify is built for python 3+.
 The Basics
 ----------
 
-What is noisify and how to use it.
+A brief high level guide of how to use noisify, mostly prose with illustrative examples.
 
 .. toctree::
    :maxdepth: 2
@@ -99,7 +122,7 @@ Our release process and community support process.
 The API Documentation / Guide
 -----------------------------
 
-Full documentation of the noisify API, generated from doc strings.
+Full documentation of the noisify API
 
 .. toctree::
    :maxdepth: 2

@@ -60,3 +60,11 @@ def typo(string, severity):
 def get_mode_size(mode):
     """Converts a PIL image mode string into a dimension cardinality"""
     return len([i for i in mode if i.isupper()])
+
+
+def image_size(image_object):
+    channels = get_mode_size(image_object.mode)
+    if channels > 1:
+        return image_object.height, image_object.width, channels
+    else:
+        return image_object.height, image_object.width

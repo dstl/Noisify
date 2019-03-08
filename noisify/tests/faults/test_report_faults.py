@@ -1,12 +1,12 @@
 import unittest
 from noisify.faults import ScrambleAttributes, ConfuseSpecificAttributes, GaussianNoise
 from noisify.reporters import Reporter
-from noisify.attributes import Attribute
+from noisify.attributes import DictValue
 
 
 class TestReportFaults(unittest.TestCase):
     def test_attribute_scrambling(self):
-        attributes_list = [Attribute('att%d' % index) for index in range(50)]
+        attributes_list = [DictValue('att%d' % index) for index in range(50)]
         new_reporter = Reporter(attributes=attributes_list)
         data = {'att%d' % index: index for index in range(50)}
         output_data = new_reporter(data).observed
@@ -17,7 +17,7 @@ class TestReportFaults(unittest.TestCase):
         pass
 
     def test_specific_attribute_confusion(self):
-        new_reporter = Reporter(attributes=[Attribute('att1'), Attribute('att2')],
+        new_reporter = Reporter(attributes=[DictValue('att1'), DictValue('att2')],
                                 faults=ConfuseSpecificAttributes('att1', 'att2', likelihood=1))
         data = {'att1': 1, 'att2': 2}
         output_data = new_reporter(data).observed
@@ -27,7 +27,7 @@ class TestReportFaults(unittest.TestCase):
         pass
 
     def test_attribute_fault_mapping(self):
-        new_reporter = Reporter(attributes=[Attribute('att1'), Attribute('att2')], faults=GaussianNoise(sigma=1))
+        new_reporter = Reporter(attributes=[DictValue('att1'), DictValue('att2')], faults=GaussianNoise(sigma=1))
         data = {'att1': 1, 'att2': 2}
         output_data = new_reporter(data).observed
         self.assertNotEqual(data, output_data)

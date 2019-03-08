@@ -105,11 +105,12 @@ Now let's create some conversion functions for metric to imperial.
     >>>
 
 Now let's create our *attributes*, this enables us to associate specific faults with specific values of the record.
+There are many different ways attributes can be looked up and modified, in this case we're using dictionary lookups.
 
-    >>> from noisify.attributes import Attribute
+    >>> from noisify.attributes import DictValue
     >>> from noisify.faults import UnitFault
-    >>> height = Attribute('height', faults=UnitFault(likelihood=0.25, unit_modifier=metres_to_inches))
-    >>> weight = Attribute('weight', faults=UnitFault(likelihood=0.25, unit_modifier=kilo_to_pounds))
+    >>> height = DictValue('height', faults=UnitFault(likelihood=0.25, unit_modifier=metres_to_inches))
+    >>> weight = DictValue('weight', faults=UnitFault(likelihood=0.25, unit_modifier=kilo_to_pounds))
 
 Attributes take an identifier, this can be a key to a dictionary, or an attribute name of an object.
 

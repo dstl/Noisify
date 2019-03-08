@@ -42,9 +42,6 @@ class Fault(SavedInitStatement, metaclass=MultipleDispatch):
     Example:
 
         >>> class AddOneFault(Fault):
-        ...     def condition(self, triggering_object):
-        ...         return True
-        ...
         ...     @register_implementation(priority=2)
         ...     def make_uppercase(self, lowercase_string: str):
         ...         print('Called uppercase function')

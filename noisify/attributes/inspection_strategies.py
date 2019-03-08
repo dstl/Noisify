@@ -1,7 +1,7 @@
-from noisify.attributes import Attribute
+from noisify.attributes import DictValue
 
 
-def generate_noise_attributes_from_dict(unknown_dictionary, attribute_faults=None):
+def dictionary_lookup(unknown_dictionary, attribute_faults=None):
     """
     Generates attributes for each key/value pair of a given dictionary, enables
     reporters to map faults across dictionaries without further specification.
@@ -12,4 +12,4 @@ def generate_noise_attributes_from_dict(unknown_dictionary, attribute_faults=Non
     """
     if hasattr(unknown_dictionary, 'keys'):
         for identifier in unknown_dictionary.keys():
-            yield Attribute(identifier, faults=attribute_faults)
+            yield DictValue(identifier, faults=attribute_faults)

@@ -14,9 +14,6 @@ Faults are defined by subclassing the base Fault class:
     ...     def __init__(self, likelihood=1.0):
     ...         self.likelihood = min(1.0, likelihood)
     ...
-    ...     def condition(self, triggering_object):
-    ...         return random.random < self.likelihood
-    ...
     ...     @register_implementation(priority=1)
     ...     def add_to_string(self, string_object):
     ...         return string_object + "1"
@@ -26,11 +23,7 @@ Let's unpack this definition.
 
 We have the constructor, this behaves as expected. In this case adding a likelihood attribute to the object.
 
-Next we have a 'condition' method, this must be defined! It accepts the triggering object (that is the attribute or
-report) this enables conditional activation based upon the content of the trigger (for example if a flaw is more likely
-to happen for numbers then for strings).
-
-Finally we have an implementation. This describes how a fault will act on the data it is given.
+We also have an implementation. This describes how a fault will act on the data it is given.
 
 Implementations And The Dispatch Queue
 --------------------------------------
@@ -51,9 +44,6 @@ Let's look at some source code for an example
     ...         AttributeFault.__init__(self, sigma=sigma)
     ...         self.sigma = sigma
     ...         pass
-    ...
-    ...     def condition(self, triggering_object):
-    ...         return True
     ...
     ...     @register_implementation(priority=10)
     ...     def numpy_array(self, array_like_object):

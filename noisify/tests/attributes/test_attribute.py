@@ -1,28 +1,34 @@
 import unittest
-from noisify.attributes import Attribute
+from noisify.attributes import Attribute, DictValue, ObjectAttribute
 from noisify.faults import GaussianNoise, InterruptionFault
 
 
 class TestAttributeLookup(unittest.TestCase):
     def test_object_attribute_lookup(self):
-        test_attribute = Attribute('test')
+        test_attribute = ObjectAttribute('test')
 
         class Foo:
             test = 'test_attribute'
         bar = Foo()
-        self.assertIs(test_attribute.get_truth(bar), 'test_attribute')
+        self.assertIs(test_attribute.get_value(bar), 'test_attribute')
         pass
 
     def test_dict_lookup(self):
-        test_attribute = Attribute('test')
+        test_attribute = DictValue('test')
         bar = {'test': 'test_attribute'}
-        self.assertIs(test_attribute.get_truth(bar), 'test_attribute')
+        self.assertIs(test_attribute.get_value(bar), 'test_attribute')
         pass
 
-    def test_fail(self):
-        test_attribute = Attribute('test')
-        with self.assertRaises(ValueError):
-            test_attribute.get_truth(None)
+    def test_dict_fail(self):
+        test_attribute = DictValue('test')
+        with self.assertRaises(TypeError):
+            test_attribute.get_value(None)
+        pass
+
+    def test_attribute_fail(self):
+        test_attribute = ObjectAttribute('test')
+        with self.assertRaises(AttributeError):
+            test_attribute.get_value(None)
         pass
 
     def test_addition(self):

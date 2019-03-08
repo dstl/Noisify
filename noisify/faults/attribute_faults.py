@@ -1,6 +1,6 @@
 from .fault import AttributeFault
 import random
-from .utilities import typo, get_mode_size
+from .utilities import typo, image_size
 
 
 class GaussianNoise(AttributeFault):
@@ -33,7 +33,7 @@ class GaussianNoise(AttributeFault):
         from PIL import Image
         import numpy as np
 
-        input_size = (image_object.height, image_object.width, get_mode_size(image_object.mode))
+        input_size = image_size(image_object)
         noise_mask = np.random.normal(scale=self.sigma, size=input_size)
         image_array = np.array(image_object)
         output = Image.fromarray(np.uint8(np.clip(image_array + noise_mask, 0, 255)))
@@ -57,6 +57,7 @@ class GaussianNoise(AttributeFault):
     def python_numeric(self, python_numeric_object):
         """Support for basic python numeric types"""
         return random.gauss(python_numeric_object, self.sigma)
+
 
 
 class UnitFault(AttributeFault):
@@ -88,7 +89,7 @@ class UnitFault(AttributeFault):
         from PIL import Image
         import numpy as np
 
-        input_size = (image_object.height, image_object.width, get_mode_size(image_object.mode))
+        input_size = image_size(image_object)
         image_array = np.array(image_object)
         output = Image.fromarray(np.uint8(np.clip(self.unit_modifier(image_array), 0, 255)))
         return output
@@ -139,8 +140,8 @@ class InterruptionFault(AttributeFault):
         """Support for PIL images"""
         from PIL import Image
         import numpy as np
+        input_size = image_size(image_object)
 
-        input_size = (image_object.height, image_object.width, get_mode_size(image_object.mode))
         image_array = np.array(image_object)
         output = Image.fromarray(np.uint8(self.numpy_array(image_array)))
         return output

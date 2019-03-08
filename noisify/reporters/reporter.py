@@ -1,6 +1,7 @@
 from noisify.helpers import Fallible
-from noisify.attributes import generate_noise_attributes_from_dict
+from noisify.attributes import dictionary_lookup
 from pprint import pformat
+from copy import deepcopy
 
 
 class Reporter(Fallible):
@@ -9,8 +10,9 @@ class Reporter(Fallible):
     Reporters define how objects should be changed. They can be as specific or a general
     as needed.
     """
-    def __init__(self, attributes=None, faults=None):
+    def __init__(self, attributes=None, attribute_type=dictionary_lookup, faults=None):
         self.attributes = attributes or []
+        self.attribute_introspection_strategy = attribute_type
         Fallible.__init__(self, faults=faults)
         self.report_index = 0
 
@@ -38,19 +40,19 @@ class Reporter(Fallible):
         return triggered_faults, flawed_measurement
 
     def _get_attribute_measurements(self, truth_object):
-        measurement = {}
+        measurement = deepcopy(truth_object)
         triggered_faults = {}
         attributes = self._get_or_introspect_attributes(truth_object)
         if not attributes:
             return truth_object, {}
         for attribute in attributes:
-            faults, measure = attribute.measure(truth_object)
-            measurement[attribute.attribute_identifier] = measure
+            faults, new_value = attribute.measure(truth_object)
+            attribute.update_value(measurement, new_value)
             triggered_faults[attribute.attribute_identifier] = faults
         return measurement, triggered_faults
 
     def _get_or_introspect_attributes(self, truth_object):
-        return self.attributes or [i for i in generate_noise_attributes_from_dict(truth_object)]
+        return self.attributes or list(self.attribute_introspection_strategy(truth_object))
 
     def _get_truth(self, truth_object):
         attributes = self._get_or_introspect_attributes(truth_object)

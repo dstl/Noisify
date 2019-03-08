@@ -2,6 +2,15 @@ import random
 
 
 def scramble(collection, scrambledness, confusion_range):
+    """
+    Scrambles the order of objects in a collection using a gaussian distribution, can lead to
+    duplicate objects
+
+    :param collection:
+    :param scrambledness:
+    :param confusion_range:
+    :return:
+    """
     new_collection = []
     visited_indices = set()
     for index, item in enumerate(collection):
@@ -25,6 +34,14 @@ def scramble(collection, scrambledness, confusion_range):
 
 
 def dropped_scramble(collection, scrambledness, confusion_range):
+    """
+    Scrambles objects in a collection, with a chance to lose some objects
+
+    :param collection:
+    :param scrambledness:
+    :param confusion_range:
+    :return:
+    """
     return [i for i in scramble(collection, scrambledness, confusion_range) if random.random() > scrambledness / 10]
 
 
@@ -38,3 +55,8 @@ def typo(string, severity):
     :return: mistyped string
     """
     return ''.join(dropped_scramble(string, float(severity), 3))
+
+
+def get_mode_size(mode):
+    """Converts a PIL image mode string into a dimension cardinality"""
+    return len([i for i in mode if i.isupper()])

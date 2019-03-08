@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 
 setup(name='noisify',
-      version='0.3',
+      version='0.5',
       description='Framework for creating synthetic data with realistic errors for refining data science pipelines.',
       url='',
       author='Declan Crew',

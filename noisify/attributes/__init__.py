@@ -1,2 +1,2 @@
 from .attribute import Attribute
-from noisify.attributes.utilities import generate_object_attributes
+from noisify.attributes.utilities import generate_noise_attributes_from_dict

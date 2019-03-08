@@ -20,13 +20,18 @@ sys.path.insert(0, os.path.abspath('..'))
 # -- Project information -----------------------------------------------------
 
 project = 'Noisify'
-copyright = '2019, Declan Crew'
+copyright = '2019, DSTL (Crown copyright)'
 author = 'Declan Crew'
 
+import noisify
+
 # The short X.Y version
-version = ''
-# The full version, including alpha/beta/rc tags
-release = '0.5'
+version = '1.0.0'
+#version = noisify.__version__
+
+# The full version, including alpha/beta/rc tags.
+release = '1.0.0'
+#release = noisify.__version__
 
 
 # -- General configuration ---------------------------------------------------
@@ -179,3 +184,11 @@ epub_exclude_files = ['search.html']
 
 
 # -- Extension configuration -------------------------------------------------
+
+def skip_decorator(app, what, name, obj, skip, options):
+    if name == 'register_implementation':
+        return True
+    return skip
+
+def setup(app):
+    app.connect('autodoc-skip-member', skip_decorator)

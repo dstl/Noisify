@@ -1,9 +1,7 @@
 from noisify.helpers import SavedInitStatement
-from pprint import pformat
 from typing import get_type_hints
 import random
-
-from noisify.helpers.multi_dispatch import register_implementation, MultipleDispatch
+from noisify.helpers.multi_dispatch import MultipleDispatch
 
 
 class Fault(SavedInitStatement, metaclass=MultipleDispatch):
@@ -88,6 +86,7 @@ class Fault(SavedInitStatement, metaclass=MultipleDispatch):
     def apply(self, not_faulted_object):
         """
         Applies the fault to an object, returns self and the new object if the activation condition is met.
+
         :param not_faulted_object:
         :return: self or None, impacted_object
         """
@@ -148,6 +147,7 @@ class AttributeFault(Fault):
     def condition(self, triggering_object):
         """
         Overrides the condition method to be constitutively active at the initial mapping stage.
+
         :param triggering_object:
         :return:
         """
@@ -161,6 +161,7 @@ class AttributeFault(Fault):
         """
         Attempts to apply the fault to all subitems of the given object, in practice this means
         calling the fault on all values of a dict.
+
         :param truth_object:
         :return:
         """

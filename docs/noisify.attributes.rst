@@ -1,9 +1,6 @@
 noisify.attributes package
 ==========================
 
-Submodules
-----------
-
 noisify.attributes.attribute module
 -----------------------------------
 
@@ -15,13 +12,5 @@ noisify.attributes.utilities module
 -----------------------------------
 
 .. automodule:: noisify.attributes.utilities
-    :members:
-    :show-inheritance:
-
-
-Module contents
----------------
-
-.. automodule:: noisify.attributes
     :members:
     :show-inheritance:

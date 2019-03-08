@@ -1,30 +1,46 @@
 from noisify.helpers import Fallible
-from noisify.attributes import generate_object_attributes
+from noisify.attributes import generate_noise_attributes_from_dict
 from pprint import pformat
 
 
 class Reporter(Fallible):
+    """The most important class in Noisify!
+
+    Reporters define how objects should be changed. They can be as specific or a general
+    as needed.
+    """
     def __init__(self, attributes=None, faults=None):
         self.attributes = attributes or []
         Fallible.__init__(self, faults=faults)
         self.report_index = 0
 
     def create_report(self, truth_object, identifier=None):
+        """
+        Calling the reporter object directly on an object will call this method.
+
+        :param truth_object: Anything
+        :param identifier: Optional identifier for the output report, defaults to a serial integer
+        :return: A report for the given input object
+        """
         identifier = identifier or self.report_index
         self.report_index += 1
-        triggered_faults, measures = self.measure(truth_object)
-        return Report(identifier, self.get_truth(truth_object), triggered_faults, measures)
+        triggered_faults, measures = self._measure(truth_object)
+        return Report(identifier, self._get_truth(truth_object), triggered_faults, measures)
 
-    def measure(self, truth_object):
-        measurement, triggered_faults = self.get_attribute_measurements(truth_object)
+    def _measure(self, truth_object):
+        """
+        :param truth_object: object to apply flaws to
+        :return: a dictionary of faults triggered for different attributes, and the final noised object
+        """
+        measurement, triggered_faults = self._get_attribute_measurements(truth_object)
         applied_faults, flawed_measurement = self.apply_all_faults(measurement)
         triggered_faults['reporter'] = applied_faults
         return triggered_faults, flawed_measurement
 
-    def get_attribute_measurements(self, truth_object):
+    def _get_attribute_measurements(self, truth_object):
         measurement = {}
         triggered_faults = {}
-        attributes = self.get_or_introspect_attributes(truth_object)
+        attributes = self._get_or_introspect_attributes(truth_object)
         if not attributes:
             return truth_object, {}
         for attribute in attributes:
@@ -33,19 +49,20 @@ class Reporter(Fallible):
             triggered_faults[attribute.attribute_identifier] = faults
         return measurement, triggered_faults
 
-    def get_or_introspect_attributes(self, truth_object):
-        return self.attributes or [i for i in generate_object_attributes(truth_object)]
+    def _get_or_introspect_attributes(self, truth_object):
+        return self.attributes or [i for i in generate_noise_attributes_from_dict(truth_object)]
 
-    def get_truth(self, truth_object):
-        attributes = self.get_or_introspect_attributes(truth_object)
+    def _get_truth(self, truth_object):
+        attributes = self._get_or_introspect_attributes(truth_object)
         if not attributes:
             return truth_object
         truth = {}
         for attribute in attributes:
-            truth[attribute.attribute_identifier] = attribute.get_truth(truth_object)
+            truth[attribute.attribute_identifier] = attribute.get_value(truth_object)
         return truth
 
     def get_attribute_by_id(self, attribute_identifier):
+        """Getter method for report attributes"""
         for attribute in self.attributes:
             if attribute.attribute_identifier == attribute_identifier:
                 return attribute
@@ -61,6 +78,7 @@ class Reporter(Fallible):
 
     @staticmethod
     def merge_attributes(report1, report2):
+        """Merges attributes between two reporters, used for reporter addition"""
         report1_attributes = set(a.attribute_identifier for a in report1.attributes)
         report2_attributes = set(a.attribute_identifier for a in report2.attributes)
         new_attributes = []
@@ -81,6 +99,8 @@ class Reporter(Fallible):
 
 
 class Report:
+    """Report class, stores the noised data with the faults and ground truth
+    for future use."""
     def __init__(self, identifier, truth, triggered_faults, observed):
         self.identifier = identifier
         self.truth = truth

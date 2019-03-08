@@ -10,8 +10,8 @@ class TestReportFaults(unittest.TestCase):
         new_reporter = Reporter(attributes=attributes_list)
         data = {'att%d' % index: index for index in range(50)}
         output_data = new_reporter(data).observed
-        scramble_fault = ScrambleAttributes(scrambledness=100)
-        output_data = scramble_fault.impact_report(output_data)
+        scramble_fault = ScrambleAttributes(likelihood=100)
+        output_data = scramble_fault.impact_dictionary(output_data)
         self.assertNotEqual(data, output_data)
         self.assertEqual({i for i in data.keys()}, {i for i in output_data.keys()})
         pass

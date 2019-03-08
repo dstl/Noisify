@@ -1,11 +1,6 @@
 from .fault import AttributeFault
-from noisify.helpers.multi_dispatch import register_implementation
 import random
-from .utilities import typo
-
-
-def get_mode_size(mode):
-    return len([i for i in mode if i.isupper()])
+from .utilities import typo, get_mode_size
 
 
 class GaussianNoise(AttributeFault):
@@ -115,8 +110,7 @@ class CalibrationFault(UnitFault):
     """
     def __init__(self, offset=0):
         """
-        Instantiate with a numeric offset value
-        :param offset:
+        :param offset: Numeric
         """
         def offsetter(value):
             return value + offset
@@ -135,8 +129,7 @@ class InterruptionFault(AttributeFault):
     """
     def __init__(self, likelihood=0):
         """
-        Instantiate with likelihood of interruption as a 0-1 float.
-        :param likelihood:
+        :param likelihood: Probability as 0-1 float
         """
         AttributeFault.__init__(self, likelihood=likelihood)
         pass
@@ -180,7 +173,7 @@ class TypographicalFault(AttributeFault):
         """
         Instantiate with a likelihood of making a typo, and a severity metric, severities significantly larger than 1
         can lead to unstable behaviours
-        :param likelihood:
+        :param likelihood: Probability as 0-1 float
         :param severity:
         """
         AttributeFault.__init__(self, likelihood=likelihood, severity=severity)

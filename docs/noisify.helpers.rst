@@ -1,9 +1,6 @@
 noisify.helpers package
 =======================
 
-Submodules
-----------
-
 noisify.helpers.fallible module
 -------------------------------
 
@@ -15,13 +12,5 @@ noisify.helpers.saved\_init\_statement module
 ---------------------------------------------
 
 .. automodule:: noisify.helpers.saved_init_statement
-    :members:
-    :show-inheritance:
-
-
-Module contents
----------------
-
-.. automodule:: noisify.helpers
     :members:
     :show-inheritance:

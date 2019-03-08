@@ -26,4 +26,5 @@ class MultipleDispatch(type):
                 if parent_implementations:
                     attrs['_implementations'] += parent_implementations
             attrs['_implementations'].sort(key=lambda x: x[1], reverse=True)
+            del attrs['register_implementation']
         return super(MultipleDispatch, cls).__new__(cls, name, base, attrs)

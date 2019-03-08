@@ -2,6 +2,9 @@ import inspect
 
 
 class SavedInitStatement:
+    """Init statement saving mixin, introspects on object instantiation arguments and
+    saves them to the final object"""
+
     def __init__(self, *args, **kwargs):
         frame = inspect.currentframe()
         _, _, _, values = inspect.getargvalues(frame)

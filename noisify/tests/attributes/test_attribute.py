@@ -1,3 +1,6 @@
+"""
+.. Dstl (c) Crown Copyright 2017
+"""
 import unittest
 from noisify.attribute_readers import AttributeReader, DictValue, ObjectAttribute
 from noisify.faults import GaussianNoise, InterruptionFault

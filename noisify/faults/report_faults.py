@@ -1,3 +1,9 @@
+"""
+.. Dstl (c) Crown Copyright 2017
+
+Report level faults typically comprise faults that depend on multiple attributes. For example switching attribute
+values.
+"""
 from .fault import Fault
 from .utilities import scramble
 import random

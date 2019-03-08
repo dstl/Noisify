@@ -1,3 +1,6 @@
+"""
+.. Dstl (c) Crown Copyright 2017
+"""
 import unittest
 import numpy as np
 from noisify.faults import *

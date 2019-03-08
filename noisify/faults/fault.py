@@ -1,3 +1,8 @@
+"""
+.. Dstl (c) Crown Copyright 2017
+
+The base classes for faults.
+"""
 from noisify.helpers import SavedInitStatement
 from typing import get_type_hints
 import random

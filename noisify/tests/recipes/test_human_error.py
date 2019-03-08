@@ -1,3 +1,6 @@
+"""
+.. Dstl (c) Crown Copyright 2017
+"""
 import unittest
 from noisify.recipes.default_recipes import human_error
 

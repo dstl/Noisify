@@ -1,3 +1,6 @@
+"""
+.. Dstl (c) Crown Copyright 2017
+"""
 import unittest
 from noisify.reporters import Reporter
 from noisify.attribute_readers import DictValue

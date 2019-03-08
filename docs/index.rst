@@ -22,22 +22,22 @@ Add some human noise (typos, things in the wrong boxes etc.)
     >>> test_data = {'this': 1.0, 'is': 2, 'a': 'test!'}
     >>> human_noise = human_error(5)
     >>> print(list(human_noise(test_data)))
-    [Observed value: {'a': 'tset!', 'this': 2, 'is': 1.0}]
+    [{'a': 'tset!', 'this': 2, 'is': 1.0}]
     >>> print(list(human_noise(test_data)))
-    [Observed value: {'a': 0.0, 'this': 'test!', 'is': 2}]
+    [{'a': 0.0, 'this': 'test!', 'is': 2}]
 
 Add some machine noise (gaussian noise, data collection interruptions etc.)
 
     >>> from noisify.recipes import machine_error
     >>> machine_noise = machine_error(5)
     >>> print(list(machine_noise(test_data)))
-    [Observed value: {'this': 1.12786393038729, 'is': 2.1387080616716307, 'a': 'test!'}]
+    [{'this': 1.12786393038729, 'is': 2.1387080616716307, 'a': 'test!'}]
 
 If you want both, just add them together
 
     >>> combined_noise = machine_error(5) + human_error(5)
     >>> print(list(combined_noise(test_data)))
-    [Observed value: {'this': 1.23854334573554, 'is': 20.77848220943227, 'a': 'tst!'}]
+    [{'this': 1.23854334573554, 'is': 20.77848220943227, 'a': 'tst!'}]
 
 Add noise to numpy arrays
 
@@ -46,7 +46,7 @@ Add noise to numpy arrays
     >>> print(test_array)
     [0 1 2 3 4 5 6 7 8 9]
     >>> print(list(combined_noise(test_array)))
-    [Observed value: [0.09172393 2.52539794 1.38823741 2.85571154 2.85571154 6.37596668
+    [[0.09172393 2.52539794 1.38823741 2.85571154 2.85571154 6.37596668
                       4.7135771  7.28358719 6.83600156 9.40973018]]
 
 Read an image
@@ -67,7 +67,7 @@ And now with noise
    >>> from noisify.recipes import human_error, machine_error
    >>> combined_noise = machine_error(5) + human_error(5)
    >>> for out_image in combined_noise(test_image):
-   ...     out_image.observed.show()
+   ...     out_image.show()
 
 .. image:: _static/noisy_dstl.jpg
    :width: 339px

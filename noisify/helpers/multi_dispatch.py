@@ -1,3 +1,8 @@
+"""
+.. Dstl (c) Crown Copyright 2017
+"""
+
+
 def register_implementation(priority=-1):
     """
     Decorator for use with MultipleDispatch derived classes, accepts a priority numeric. It does not need to be

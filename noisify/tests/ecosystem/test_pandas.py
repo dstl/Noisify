@@ -1,3 +1,6 @@
+"""
+.. Dstl (c) Crown Copyright 2017
+"""
 import unittest
 import pandas as pd
 import pandas.testing as pd_testing

@@ -20,7 +20,7 @@ sys.path.insert(0, os.path.abspath('..'))
 # -- Project information -----------------------------------------------------
 
 project = 'Noisify'
-copyright = '2019, DSTL (Crown copyright)'
+copyright = 'Dstl (c) Crown Copyright 2019'
 author = 'Declan Crew'
 
 import noisify

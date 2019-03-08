@@ -1,3 +1,6 @@
+"""
+.. Dstl (c) Crown Copyright 2017
+"""
 import unittest
 from noisify.faults import ScrambleAttributes, ConfuseSpecificAttributes, GaussianNoise
 from noisify.reporters import Reporter

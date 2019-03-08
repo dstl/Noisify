@@ -1,3 +1,8 @@
+"""
+.. Dstl (c) Crown Copyright 2017
+
+Fault utility functions, general purpose code that is used by multiple functions.
+"""
 import random
 
 
@@ -43,28 +48,3 @@ def dropped_scramble(collection, scrambledness, confusion_range):
     :return:
     """
     return [i for i in scramble(collection, scrambledness, confusion_range) if random.random() > scrambledness / 10]
-
-
-def typo(string, severity):
-    """
-    Roughly rearranges string with the occasional missed character, based on applying a gaussian noise filter
-    to the string character indexes and then rounding to the closest index.
-
-    :param string:
-    :param severity:
-    :return: mistyped string
-    """
-    return ''.join(dropped_scramble(string, float(severity), 3))
-
-
-def get_mode_size(mode):
-    """Converts a PIL image mode string into a dimension cardinality"""
-    return len([i for i in mode if i.isupper()])
-
-
-def image_size(image_object):
-    channels = get_mode_size(image_object.mode)
-    if channels > 1:
-        return image_object.height, image_object.width, channels
-    else:
-        return image_object.height, image_object.width

@@ -1,16 +1,16 @@
-noisify.attributes package
-==========================
+noisify.attribute_readers package
+=================================
 
-noisify.attributes.attribute module
------------------------------------
+noisify.attribute_readers.attribute_readers module
+--------------------------------------------------
 
-.. automodule:: noisify.attributes.attribute
+.. automodule:: noisify.attribute_readers.attribute_readers
     :members:
     :show-inheritance:
 
-noisify.attributes.utilities module
------------------------------------
+noisify.attribute_readers.inspection_strategies module
+------------------------------------------------------
 
-.. automodule:: noisify.attributes.utilities
+.. automodule:: noisify.attribute_readers.inspection_strategies
     :members:
     :show-inheritance:

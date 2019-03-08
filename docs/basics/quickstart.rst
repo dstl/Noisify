@@ -25,7 +25,7 @@ Recipes create Noisifier objects, these objects then generate observations based
 list, cast to list.
 
     >>> print(list(human_noise(test_data)))
-    [Observed value: {'a': 'tset!', 'this': 2, 'is': 1.0}]
+    [{'a': 'tset!', 'this': 2, 'is': 1.0}]
 
 You can also use a noisifier on a list of data.
 
@@ -37,11 +37,11 @@ You can also use a noisifier on a list of data.
      {'test3': 'This is test run number 3'},
      {'test4': 'This is test run number 4'}]
     >>> print(list(human_noise(test_data)))
-    [Observed value: {'test0': 'This is test run number 0'},
-     Observed value: {'test1': 'This is test run number 1'},
-     Observed value: {'test2': 'hT iis testt unn umber2'},
-     Observed value: {'test3': 'This is test run number 3'},
-     Observed value: {'test4': 'This is test run number 4'}]
+    [{'test0': 'This is test run number 0'},
+     {'test1': 'This is test run number 1'},
+     {'test2': 'hT iis testt unn umber2'},
+     {'test3': 'This is test run number 3'},
+     {'test4': 'This is test run number 4'}]
 
 Let's have a closer look at what human_noise does.
 
@@ -68,11 +68,11 @@ Applying Gaussian noise to a string doesn't make much sense. That's no issue her
 apply a given fault to a value, it won't try.
 
     >>> print(list(machine_error(5)(test_data)))
-    [Observed value: {'test0': 'This is test run number 0'},
-     Observed value: {'test1': 'This is test run number 1'},
-     Observed value: {'test2': None},
-     Observed value: {'test3': 'This is test run number 3'},
-     Observed value: {'test4': 'This is test run number 4'}]
+    [{'test0': 'This is test run number 0'},
+     {'test1': 'This is test run number 1'},
+     {'test2': None},
+     {'test3': 'This is test run number 3'},
+     {'test4': 'This is test run number 4'}]
 
 
 Custom Noisifiers
@@ -122,7 +122,7 @@ Now we build the reporter.
 That was easy, the reporter can be called on individual records, but won't accept data series.
 
     >>> patient_reporter(build_patient_record())
-    Observed value: {'height': 1.8157596382670191, 'weight': 199.97545102729777}
+    {'height': 1.8157596382670191, 'weight': 199.97545102729777}
 
 To apply more generally, create a noisifier.
 
@@ -140,11 +140,11 @@ Let's build some data and noisify it.
      {'height': 1.7624795973113694, 'weight': 76.47383227872784}]
     >>> processed_patients = list(patient_noise(true_patients))
     >>> processed_patients
-    [Observed value: {'height': 1.7831797462380368, 'weight': 84.70459461136014},
-     Observed value: {'height': 1.7661108421633465, 'weight': 192.2886290822504},
-     Observed value: {'height': 59.24103403382112, 'weight': 102.7315276194823},
-     Observed value: {'height': 76.26468781309394, 'weight': 78.54807087351945},
-     Observed value: {'height': 1.7624795973113694, 'weight': 76.47383227872784}]
+    [{'height': 1.7831797462380368, 'weight': 84.70459461136014},
+     {'height': 1.7661108421633465, 'weight': 192.2886290822504},
+     {'height': 59.24103403382112, 'weight': 102.7315276194823},
+     {'height': 76.26468781309394, 'weight': 78.54807087351945},
+     {'height': 1.7624795973113694, 'weight': 76.47383227872784}]
 
 Report objects
 --------------

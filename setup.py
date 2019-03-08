@@ -1,3 +1,6 @@
+"""
+.. Dstl (c) Crown Copyright 2017
+"""
 from setuptools import setup, find_packages
 
 setup(name='noisify',

@@ -5,12 +5,12 @@ import copy
 
 
 class ScrambleAttributes(Fault):
-    """Switches the values of different attributes within the object. By default it will
-    apply to all attributes."""
+    """Switches the values of different attribute_readers within the object. By default it will
+    apply to all attribute_readers."""
     def __init__(self, likelihood=0.1, attribute_identifiers=None):
         """
-        Swaps the values of different attributes in an object, can be restricted to a subset
-        of all the attributes using the optional attribute_identifiers keyword argument
+        Swaps the values of different attribute_readers in an object, can be restricted to a subset
+        of all the attribute_readers using the optional attribute_identifiers keyword argument
 
         :param likelihood:
         :param attribute_identifiers:
@@ -58,7 +58,7 @@ class ScrambleAttributes(Fault):
 class ConfuseSpecificAttributes(Fault):
     """Swaps a specific pair of attribute values in a given object"""
     def __init__(self, attribute1, attribute2, likelihood=0):
-        """Takes the two attributes (as keys or strings) to be swapped and the likelihood
+        """Takes the two attribute_readers (as keys or strings) to be swapped and the likelihood
         of the swap taking place"""
         self.attribute1 = attribute1
         self.attribute2 = attribute2

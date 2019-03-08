@@ -1,10 +1,10 @@
 import unittest
 from noisify.reporters import Reporter
-from noisify.attributes import DictValue
+from noisify.attribute_readers import DictValue
 from noisify.faults import GaussianNoise, InterruptionFault
 
 
-class TestReports(unittest.TestCase):
+class TestReporters(unittest.TestCase):
     def test_attribute_faults(self):
         new_prototype = Reporter(attributes=[DictValue('noisy', faults=GaussianNoise(sigma=0.1)),
                                              DictValue('noiseless')])
@@ -34,4 +34,13 @@ class TestReports(unittest.TestCase):
         new_prototype = prototype1 + prototype2
         self.assertIs(len(new_prototype.attributes), 3)
         self.assertIs(len(new_prototype.get_attribute_by_id('noisier').faults), 2)
+        pass
+
+
+class TestReports(unittest.TestCase):
+    def test_method_delegation(self):
+        new_prototype = Reporter(attributes=[DictValue('noisy', faults=GaussianNoise(sigma=0.1)),
+                                             DictValue('noiseless')])
+        report = new_prototype({'noisy': 100, 'noiseless': 100})
+        self.assertEqual(set(report.keys()), {'noisy', 'noiseless'})
         pass

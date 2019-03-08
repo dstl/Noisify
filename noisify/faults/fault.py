@@ -128,7 +128,7 @@ class Fault(SavedInitStatement, metaclass=MultipleDispatch):
 
 class AttributeFault(Fault):
     """
-    Derived base class for attributes, adds mapping behaviour which enables attribute faults to be added at
+    Derived base class for attribute_readers, adds mapping behaviour which enables attribute faults to be added at
     higher levels of data representation.
 
     For example:

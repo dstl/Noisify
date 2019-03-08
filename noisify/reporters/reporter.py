@@ -1,7 +1,9 @@
 from noisify.helpers import Fallible
-from noisify.attributes import dictionary_lookup
+from noisify.attribute_readers import dictionary_lookup
 from pprint import pformat
 from copy import deepcopy
+
+from noisify.reporters.report import Report
 
 
 class Reporter(Fallible):
@@ -32,7 +34,7 @@ class Reporter(Fallible):
     def _measure(self, truth_object):
         """
         :param truth_object: object to apply flaws to
-        :return: a dictionary of faults triggered for different attributes, and the final noised object
+        :return: a dictionary of faults triggered for different attribute_readers, and the final noised object
         """
         measurement, triggered_faults = self._get_attribute_measurements(truth_object)
         applied_faults, flawed_measurement = self.apply_all_faults(measurement)
@@ -40,16 +42,16 @@ class Reporter(Fallible):
         return triggered_faults, flawed_measurement
 
     def _get_attribute_measurements(self, truth_object):
-        measurement = deepcopy(truth_object)
+        output_object = deepcopy(truth_object)
         triggered_faults = {}
         attributes = self._get_or_introspect_attributes(truth_object)
         if not attributes:
             return truth_object, {}
         for attribute in attributes:
             faults, new_value = attribute.measure(truth_object)
-            attribute.update_value(measurement, new_value)
+            attribute.update_value(output_object, new_value)
             triggered_faults[attribute.attribute_identifier] = faults
-        return measurement, triggered_faults
+        return output_object, triggered_faults
 
     def _get_or_introspect_attributes(self, truth_object):
         return self.attributes or list(self.attribute_introspection_strategy(truth_object))
@@ -64,7 +66,7 @@ class Reporter(Fallible):
         return truth
 
     def get_attribute_by_id(self, attribute_identifier):
-        """Getter method for report attributes"""
+        """Getter method for report attribute_readers"""
         for attribute in self.attributes:
             if attribute.attribute_identifier == attribute_identifier:
                 return attribute
@@ -80,7 +82,7 @@ class Reporter(Fallible):
 
     @staticmethod
     def merge_attributes(report1, report2):
-        """Merges attributes between two reporters, used for reporter addition"""
+        """Merges attribute_readers between two reporters, used for reporter addition"""
         report1_attributes = set(a.attribute_identifier for a in report1.attributes)
         report2_attributes = set(a.attribute_identifier for a in report2.attributes)
         new_attributes = []
@@ -98,17 +100,3 @@ class Reporter(Fallible):
                     {'Attributes': [a for a in self.attributes],
                      'Faults': [f for f in self.faults]}
                 })
-
-
-class Report:
-    """Report class, stores the noised data with the faults and ground truth
-    for future use."""
-    def __init__(self, identifier, truth, triggered_faults, observed):
-        self.identifier = identifier
-        self.truth = truth
-        self.triggered_faults = triggered_faults
-        self.observed = observed
-
-    def __repr__(self):
-        return "Observed value: %s" % str(self.observed)
-

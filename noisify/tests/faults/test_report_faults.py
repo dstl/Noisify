@@ -1,7 +1,7 @@
 import unittest
 from noisify.faults import ScrambleAttributes, ConfuseSpecificAttributes, GaussianNoise
 from noisify.reporters import Reporter
-from noisify.attributes import DictValue
+from noisify.attribute_readers import DictValue
 
 
 class TestReportFaults(unittest.TestCase):

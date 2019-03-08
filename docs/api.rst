@@ -1,11 +1,7 @@
 .. _api:
 
-Developer Interface
-===================
-
-
-Subpackages
------------
+API reference
+=============
 
 .. toctree::
 

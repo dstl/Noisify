@@ -9,7 +9,7 @@ import random
 
 class GaussianNoise(AttributeFault):
     """
-    Applies a gaussian noise to a numeric object. Constitutively active.
+    Applies a gaussian noise to a numeric object. 
 
     >>> noise = GaussianNoise(sigma=0.5)
     >>> noise.impact(27)
@@ -67,7 +67,6 @@ class GaussianNoise(AttributeFault):
 class UnitFault(AttributeFault):
     """
     Applies a user defined adjustment to the input numeric object. Useful for modelling unit errors.
-    Constitutively active.
 
     >>> def celsius_to_kelvin(celsius_value):
     ...     return celsius_value + 273.15
@@ -107,7 +106,6 @@ class UnitFault(AttributeFault):
 class CalibrationFault(UnitFault):
     """
     Subclass of UnitFault, adds a constant offset to the input numeric.
-    Constitutively Active.
 
     >>> calibration_fault = CalibrationFault(10)
     >>> calibration_fault.impact(200)

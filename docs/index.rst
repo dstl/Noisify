@@ -139,4 +139,3 @@ If you'd like to contribute, this is for you.
    :maxdepth: 2
 
    dev/contributing
-   dev/philosophy

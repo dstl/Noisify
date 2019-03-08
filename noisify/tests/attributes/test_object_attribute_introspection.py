@@ -1,5 +1,5 @@
 import unittest
-from noisify.attributes import dictionary_lookup
+from noisify.attribute_readers import dictionary_lookup
 
 
 class TestObjectAttributeIntrospection(unittest.TestCase):

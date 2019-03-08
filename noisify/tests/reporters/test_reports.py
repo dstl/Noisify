@@ -44,3 +44,10 @@ class TestReports(unittest.TestCase):
         report = new_prototype({'noisy': 100, 'noiseless': 100})
         self.assertEqual(set(report.keys()), {'noisy', 'noiseless'})
         pass
+
+    def test_slicing(self):
+        new_prototype = Reporter(attributes=[DictValue('noisy', faults=GaussianNoise(sigma=0.1)),
+                                             DictValue('noiseless')])
+        report = new_prototype({'noisy': 100, 'noiseless': 100})
+        self.assertEqual(report['noiseless'], 100)
+        pass

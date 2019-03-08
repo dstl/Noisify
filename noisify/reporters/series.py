@@ -1,6 +1,10 @@
+"""
+.. Dstl (c) Crown Copyright 2017
+"""
 from noisify.helpers import Fallible
 from .reporter import Reporter
 from pprint import pformat
+import itertools
 
 
 def is_atom(unknown_object):
@@ -22,17 +26,20 @@ class Noisifier(Fallible):
         self.reporter = reporter or Reporter()
         pass
 
-    def get_series(self, source_truths, key=None):
+    def get_series(self, source_truths, key=None, loop=False):
         """
         Calling the noisifier object directly on an object will call this method.
 
         :param source_truths: a series of objects (or a single object)
         :param key: function which will extract a name from each object to be used as an
         identifier for the resultant report.
+        :param loop: whether to generate indefinitely by looping over the source truths
         :return: a report generator
         """
         if is_atom(source_truths):
             source_truths = [source_truths]
+        if loop:
+            source_truths = itertools.cycle(source_truths)
         if self.faults:
             return self.apply_all_faults(self._create_reports(source_truths, key=key))
         else:

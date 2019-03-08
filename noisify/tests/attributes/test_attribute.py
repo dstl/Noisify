@@ -1,5 +1,5 @@
 import unittest
-from noisify.attributes import Attribute, DictValue, ObjectAttribute
+from noisify.attribute_readers import AttributeReader, DictValue, ObjectAttribute
 from noisify.faults import GaussianNoise, InterruptionFault
 
 
@@ -32,8 +32,8 @@ class TestAttributeLookup(unittest.TestCase):
         pass
 
     def test_addition(self):
-        test_attribute1 = Attribute('test', faults=GaussianNoise(sigma=1))
-        test_attribute2 = Attribute('test', faults=InterruptionFault(likelihood=1))
+        test_attribute1 = AttributeReader('test', faults=GaussianNoise(sigma=1))
+        test_attribute2 = AttributeReader('test', faults=InterruptionFault(likelihood=1))
         new_attribute = test_attribute1 + test_attribute2
         self.assertIs(len(new_attribute.faults), 2)
         self.assertIsInstance(new_attribute.faults[0], GaussianNoise)
@@ -41,8 +41,8 @@ class TestAttributeLookup(unittest.TestCase):
         pass
 
     def test_invalid_addition(self):
-        test_attribute1 = Attribute('test')
-        test_attribute2 = Attribute('test2')
+        test_attribute1 = AttributeReader('test')
+        test_attribute2 = AttributeReader('test2')
         with self.assertRaises(TypeError):
             test_attribute1 + test_attribute2
         pass

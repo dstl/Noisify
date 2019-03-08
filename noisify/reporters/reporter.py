@@ -1,3 +1,6 @@
+"""
+.. Dstl (c) Crown Copyright 2017
+"""
 from noisify.helpers import Fallible
 from noisify.attribute_readers import dictionary_lookup
 from pprint import pformat

@@ -1,6 +1,6 @@
 import unittest
 from noisify.reporters import Noisifier, Reporter
-from noisify.attributes import DictValue, ObjectAttribute
+from noisify.attribute_readers import DictValue, ObjectAttribute
 from noisify.faults import GaussianNoise
 
 
@@ -36,4 +36,18 @@ class TestSeries(unittest.TestCase):
         for truth, new in zip(data, result):
             self.assertEqual(truth.noiseless, new.noiseless)
             self.assertNotEqual(truth.noisy, new.noisy)
+        pass
+
+    def test_looping(self):
+        new_prototype = Reporter(attributes=[DictValue('noisy', faults=GaussianNoise(sigma=0.1)),
+                                             DictValue('noiseless')])
+        series_builder = Noisifier(reporter=new_prototype)
+        data = [{'noisy': 100, 'noiseless': 100},
+                {'noisy': 10, 'noiseless': 50},
+                {'noisy': 100, 'noiseless': 10}]
+        result = series_builder(data, loop=True)
+        for index, value in enumerate(result):
+            if index == 4:
+                break
+        self.assertEqual(value['noiseless'], 50)
         pass

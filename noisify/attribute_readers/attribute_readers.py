@@ -1,5 +1,5 @@
 """
-.. Dstl (c) Crown Copyright 2017
+.. Dstl (c) Crown Copyright 2019
 
 Attribute Readers allow faults to be directed to specific attributes of an input object. These do
 not need to be literal attributes, they can be values in a dictionary or columns in a database for

@@ -1,5 +1,5 @@
 """
-.. Dstl (c) Crown Copyright 2017
+.. Dstl (c) Crown Copyright 2019
 """
 from noisify.helpers import Fallible
 from .reporter import Reporter

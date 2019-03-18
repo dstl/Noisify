@@ -1,5 +1,5 @@
 """
-.. Dstl (c) Crown Copyright 2017
+.. Dstl (c) Crown Copyright 2019
 """
 from setuptools import setup, find_packages
 

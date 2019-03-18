@@ -1,5 +1,5 @@
 """
-.. Dstl (c) Crown Copyright 2017
+.. Dstl (c) Crown Copyright 2019
 
 Fault utility functions, general purpose code that is used by multiple functions.
 """

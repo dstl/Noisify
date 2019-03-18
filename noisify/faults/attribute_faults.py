@@ -1,5 +1,5 @@
 """
-.. Dstl (c) Crown Copyright 2017
+.. Dstl (c) Crown Copyright 2019
 Basic attribute level faults, mostly basic numeric manipulations. A good place to get started.
 """
 from noisify.faults.utilities import dropped_scramble

@@ -1,5 +1,5 @@
 """
-.. Dstl (c) Crown Copyright 2017
+.. Dstl (c) Crown Copyright 2019
 Inspection strategies are used by reporters to create attribute_readers for given objects when none are specified.
 """
 from noisify.attribute_readers import DictValue, ObjectAttribute

@@ -1,5 +1,5 @@
 """
-.. Dstl (c) Crown Copyright 2017
+.. Dstl (c) Crown Copyright 2019
 Default recipes, these are extremely simple and are mainly to provide examples for developing your own code.
 """
 from noisify.faults import TypographicalFault, ScrambleAttributes, GaussianNoise, InterruptionFault

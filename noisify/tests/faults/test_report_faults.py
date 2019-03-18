@@ -1,5 +1,5 @@
 """
-.. Dstl (c) Crown Copyright 2017
+.. Dstl (c) Crown Copyright 2019
 """
 import unittest
 from noisify.faults import ScrambleAttributes, ConfuseSpecificAttributes, GaussianNoise

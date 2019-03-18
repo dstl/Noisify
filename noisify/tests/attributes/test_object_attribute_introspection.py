@@ -1,5 +1,5 @@
 """
-.. Dstl (c) Crown Copyright 2017
+.. Dstl (c) Crown Copyright 2019
 """
 import unittest
 from noisify.attribute_readers import dictionary_lookup, object_attributes_lookup

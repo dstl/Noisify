@@ -129,13 +129,3 @@ Full documentation of the noisify API
 
    api
 
-
-The Contributor Guide
----------------------
-
-If you'd like to contribute, this is for you.
-
-.. toctree::
-   :maxdepth: 2
-
-   dev/contributing

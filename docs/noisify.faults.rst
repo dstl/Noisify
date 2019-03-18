@@ -1,9 +1,6 @@
 noisify.faults package
 ======================
 
-Submodules
-----------
-
 noisify.faults.fault module
 ---------------------------
 

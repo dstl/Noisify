@@ -142,6 +142,8 @@ latex_documents = [
      'Declan Crew', 'manual'),
 ]
 
+latex_logo = '_static/dstl.jpg'
+html_logo = '_static/dstl.jpg'
 
 # -- Options for manual page output ------------------------------------------
 

@@ -13,8 +13,8 @@ class Fault(SavedInitStatement, metaclass=MultipleDispatch):
     """
     Fault base class.
 
-    Requires implementations to be registered in its subclasses as well as activation conditions.
-    Subclasses can decorate implementations with the "register_implementation(priority=x)" decorator.
+    Requires implementations to be registered in its subclasses.
+    Subclasses register implementations with the "register_implementation(priority=x)" decorator.
 
     All implementations will be attempted using a try except loop which will except Type, Attribute and Import errors.
     If no implementations succeed, the Fault will return the original object, unchanged.

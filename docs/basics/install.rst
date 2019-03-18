@@ -8,13 +8,13 @@ Noisify is hosted on `the PyPI central repo <https://pypi.org/>`_ and can be ins
 
     $ pip install noisify
 
-The only dependency is python 3.5+ !
+The only dependency is Python 3.5+ !
 
 Build from Source
 -------------------
 
 If you would prefer to install the latest version of the code, or perhaps to modify or contribute to it, the project
-is `hosted on github <https://github.com/dstl/noisify>`_.
+is `hosted on GitHub <https://github.com/dstl/noisify>`_.
 
     $ git clone https://github.com/dstl/noisify.git
 

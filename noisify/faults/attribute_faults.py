@@ -59,7 +59,7 @@ class GaussianNoise(AttributeFault):
 
     @register_implementation(priority=1)
     def python_numeric(self, python_numeric_object):
-        """Support for basic python numeric types"""
+        """Support for basic Python numeric types"""
         return random.gauss(python_numeric_object, self.sigma)
 
 

@@ -9,7 +9,7 @@ Noisify: All purpose data augmentation
 Release v\ |version|. (:ref:`Installation <install>`)
 
 
-**Noisify** is a simple light weight library for augmenting and modifying data by adding realistic noise.
+**Noisify** is a simple light weight library for augmenting and modifying data by adding 'noise'.
 
 
 -------------------
@@ -91,7 +91,7 @@ Noisify provides data augmentation through a simple high level abstraction
 - Build recipes to deploy pipelines simply
 - Everything is composable, everything is polymorphic
 
-Noisify is built for python 3+.
+Noisify is built for Python 3+.
 
 The Basics
 ----------

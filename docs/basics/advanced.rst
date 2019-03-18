@@ -12,7 +12,7 @@ Faults are defined by subclassing the base Fault class:
     >>> import random
     >>> class AddOneFault(Fault):
     ...     def __init__(self, likelihood=1.0):
-    ...         self.likelihood = min(1.0, likelihood)
+    ...         self.likelihood = likelihood
     ...
     ...     @register_implementation(priority=1)
     ...     def add_to_string(self, string_object):
@@ -34,7 +34,8 @@ This mechanism is managed through the Dispatch Queue.
 When an implementation is written for a given fault, it is decorated using the @register_implementation(priority=x)
 decorator. This gives the implementation its place within the queue. When a fault is called upon an unknown object it
 will attempt to apply each implementation in the queue to it in sequence. If all fail it will return the original object
-unaffected.
+unaffected. Bigger numbers come first in the queue, so in the below example numpy_array will be called before
+python_numeric.
 
 Let's look at some source code for an example
 
@@ -80,5 +81,7 @@ Implementation Dispatch And Inheritance
 
 Implementations are passed down through inheritance. The main example of this is the AttributeFault fault type,
 which adds a single implementation which will attempt to map the fault onto all elements of the input object. This can
-be given to a Reporter to cause it to apply the fault to all of its attributes.
+be given to a Reporter to cause it to apply the fault to all of its attributes. Negative priorities can be used in base
+class implementations to ensure that they are resolved last. Negative priorities should not be used in normal fault
+implementation annotation.
 

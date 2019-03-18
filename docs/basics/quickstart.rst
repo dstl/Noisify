@@ -14,7 +14,7 @@ Basic augmentation can be done very simply using basic recipes.
     >>> from noisify.recipes import *
 
 The built in recipes are designed to work with a wide variety of different object types. Let's give it a go with
-a simple python dict.
+a simple Python dict.
 
     >>> test_data = {'this': 1.0, 'is': 2, 'a': 'test!'}
     >>> human_noise = human_error(5)
@@ -22,7 +22,8 @@ a simple python dict.
     <generator object Noisifier.generate_reports at 0x7f2d67e0f570>
 
 Recipes create Noisifier objects, these objects then generate observations based on what they are given. To get a simple
-list, cast to list.
+list, cast to list. The built in recipes take a single 'severity' argument. Bigger numbers lead to bigger effects on
+the data.
 
     >>> print(list(human_noise(test_data)))
     [{'a': 'tset!', 'this': 2, 'is': 1.0}]
@@ -62,7 +63,8 @@ Let's have a look at another recipe.
                    'Faults': [Fault: GaussianNoise {'sigma': 0.5},
                               Fault: InterruptionFault {'likelihood': 0.05}]}}}
 
-Can you tell what this does?
+Gaussian Noise is pretty self-explanatory, Interruption Fault leads to loss of data. Some values will be replaced with
+None.
 
 Applying Gaussian noise to a string doesn't make much sense. That's no issue here though, if noisify doesn't know how to
 apply a given fault to a value, it won't try.

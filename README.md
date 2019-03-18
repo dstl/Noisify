@@ -65,7 +65,7 @@ robust to real world conditions.
 
 ##Installation
  ####Prerequisites
- Noisify relies on python 3.5+
+ Noisify relies on Python 3.5+
  
  ####Installation from pipy
     $ pip install noisify

@@ -12,8 +12,8 @@ def scramble(collection, scrambledness, confusion_range):
     duplicate objects
 
     :param collection:
-    :param scrambledness:
-    :param confusion_range:
+    :param scrambledness: How likely two objects are to be switched
+    :param confusion_range: How far apart objects can be confused with one another
     :return:
     """
     new_collection = []
@@ -43,8 +43,8 @@ def dropped_scramble(collection, scrambledness, confusion_range):
     Scrambles objects in a collection, with a chance to lose some objects
 
     :param collection:
-    :param scrambledness:
-    :param confusion_range:
+    :param scrambledness: How likely two objects are to be switched
+    :param confusion_range: How far apart objects can be confused with one another
     :return:
     """
     return [i for i in scramble(collection, scrambledness, confusion_range) if random.random() > scrambledness / 10]

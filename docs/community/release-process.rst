@@ -1,8 +1,15 @@
 Release Process and Rules
 =========================
 
-All code will be required to implement unit tests to ensure that it does not introduce
+All code that adds new features will be required to implement unit tests to ensure that it does not introduce
 unexpected behaviour.
+
+Pull requests that add new features will be very gladly accepted! Try and keep them small if possible. Larger requests
+will naturally take longer for us to review. Please avoid adding any dependencies, if you're adding support for an extra
+library then make sure this extra support is done in an optional way (importing a library in an implementation will
+skip the implementation if the library is not installed, please use this for ecosystem support).
+
+Most importantly however, thank you for contributing back to Noisify!
 
 Versioning follows the `Semantic Versioning <https://semver.org/>`_ framework.
 

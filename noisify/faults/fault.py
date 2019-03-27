@@ -47,20 +47,20 @@ class Fault(SavedInitStatement, metaclass=MultipleDispatch):
     Example:
 
         >>> class AddOneFault(Fault):
-        ...     @register_implementation(priority=2)
+        ...     @register_implementation(priority=1)
         ...     def make_uppercase(self, lowercase_string: str):
         ...         print('Called uppercase function')
         ...         return lowercase_string.upper()
         ...
-        ...     @register_implementation(priority=1)
+        ...     @register_implementation(priority=2)
         ...     def add_to_int_string(self, integer_object: int):
         ...         print('Called integer adding function')
         ...         return int(str(integer_object) + "1")
         ...
         >>> adder = AddOneFault()
-        >>> adder.impact("testing priority")
+        >>> adder.impact("testing annotation")
         Called uppercase function
-        'TESTING PRIORITY'
+        'TESTING ANNOTATION'
         >>> adder.impact(1234)
         Called integer adding function
         12341

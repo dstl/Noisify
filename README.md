@@ -1,10 +1,7 @@
 # Noisify
 
 Noisify is a simple light weight library for augmenting and modifying data by adding realistic noise.
-
-
--------------------
-
+ 
 ## Introduction
 
 Add some human noise (typos, things in the wrong boxes etc.)
@@ -43,11 +40,11 @@ Add noise to numpy arrays
 Read an image
 
     >>> from PIL import Image
-    >>> test_image = Image.open(dstl.jpg)
+    >>> test_image = Image.open(noisify.jpg)
     >>> test_image.show()
 
 
-TODO unchanged image
+![alt text](docs/_static/noisify.jpg "Original Image")
 
 And now with noise
 
@@ -56,7 +53,7 @@ And now with noise
     >>> for out_image in combined_noise(test_image):
     ...     out_image.show()
 
-TODO image with noise
+![alt text](docs/_static/noisy_noisify.jpg "Noisy Image")
 
 *Noisify* allows you to build flexible data augmentation pipelines for arbitrary objects.
 All pipelines are built from simple high level objects, plugged together like lego.

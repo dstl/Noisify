@@ -52,10 +52,10 @@ Add noise to numpy arrays
 Read an image
 
    >>> from PIL import Image
-   >>> test_image = Image.open(dstl.jpg)
+   >>> test_image = Image.open(noisify.jpg)
    >>> test_image.show()
 
-.. image:: _static/dstl.jpg
+.. image:: _static/noisify.jpg
    :width: 339px
    :height: 158px
    :scale: 70 %
@@ -69,7 +69,7 @@ And now with noise
    >>> for out_image in combined_noise(test_image):
    ...     out_image.show()
 
-.. image:: _static/noisy_dstl.jpg
+.. image:: _static/noisy_noisify.jpg
    :width: 339px
    :height: 158px
    :scale: 70 %

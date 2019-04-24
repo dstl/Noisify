@@ -1,11 +1,11 @@
-#Noisify
+# Noisify
 
 Noisify is a simple light weight library for augmenting and modifying data by adding realistic noise.
 
 
 -------------------
 
-##Introduction
+## Introduction
 
 Add some human noise (typos, things in the wrong boxes etc.)
 
@@ -58,22 +58,23 @@ And now with noise
 
 TODO image with noise
 
-**Noisify** allows you to build flexible data augmentation pipelines for arbitrary objects.
+*Noisify* allows you to build flexible data augmentation pipelines for arbitrary objects.
 All pipelines are built from simple high level objects, plugged together like lego.
 Use noisify to stress test application interfaces, verify data cleaning pipelines, and to make your ML algorithms more
 robust to real world conditions.
 
-##Installation
- ####Prerequisites
- Noisify relies on Python 3.5+
+## Installation
+
+#### Prerequisites
+Noisify relies on Python 3.5+
  
- ####Installation from pipy
+#### Installation from pipy
     $ pip install noisify
 
-##Additional Information
+## Additional Information
 
 Full documentation is available at TODO ReadTheDocs Link.
-##Licence
+## Licence
 
 Dstl (c) Crown Copyright 2019
 

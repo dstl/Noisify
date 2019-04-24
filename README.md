@@ -1,5 +1,7 @@
 # Noisify
 
+[![Documentation Status](https://readthedocs.org/projects/noisify/badge/?version=latest)](https://noisify.readthedocs.io/en/latest/?badge=latest)
+
 Noisify is a simple light weight library for augmenting and modifying data by adding realistic noise.
  
 ## Introduction
@@ -70,7 +72,7 @@ Noisify relies on Python 3.5+
 
 ## Additional Information
 
-Full documentation is available at TODO ReadTheDocs Link.
+Full documentation is available at [ReadTheDocs](https://noisify.readthedocs.io/en/latest/).
 ## Licence
 
 Dstl (c) Crown Copyright 2019

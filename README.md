@@ -2,7 +2,7 @@
 
 [![Documentation Status](https://readthedocs.org/projects/noisify/badge/?version=latest)](https://noisify.readthedocs.io/en/latest/?badge=latest)
 
-Noisify is a simple light weight library for augmenting and modifying data by adding realistic noise.
+Noisify is a simple light-weight library for augmenting and modifying data by adding realistic noise.
  
 ## Introduction
 
